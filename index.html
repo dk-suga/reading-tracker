@@ -161,6 +161,11 @@ h1{font:700 30px/1.1 var(--font-display);margin:0;text-wrap:balance}
 .badge.star{background:color-mix(in srgb,var(--g1) 16%,var(--surface));color:var(--ptext)}
 .badge.gen{background:color-mix(in srgb,var(--g4) 20%,var(--surface));color:color-mix(in srgb,var(--g4) 62%,var(--ink))}
 .badge .ic{width:.95em;height:.95em}
+.gchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-height:31px;overflow:hidden}
+.gchips.open{max-height:none}
+#gmore{align-self:flex-start;padding-left:0;margin-top:2px}
+.gchip{border:0;font:600 12.5px var(--font-body);padding:6px 11px;border-radius:999px;background:var(--surface2);color:var(--muted);cursor:pointer;transition:background .15s}
+.gchip.on{background:color-mix(in srgb,var(--g4) 26%,var(--surface));color:color-mix(in srgb,var(--g4) 58%,var(--ink));box-shadow:inset 0 0 0 1.5px var(--g4)}
 .bnum{text-align:right;font-size:13px;color:var(--muted);white-space:nowrap}
 .bnum b{display:block;color:var(--ink);font-size:15px}
 .acts{display:flex;gap:6px;margin-top:6px;justify-content:flex-end}
@@ -535,7 +540,7 @@ var MON_SHORT=['янв','фев','мар','апр','май','июн','июл','�
 var MON_LET=['Я','Ф','М','А','М','И','И','А','С','О','Н','Д'];
 var DOW=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 var DOW_FULL=['понедельник','вторник','среда','четверг','пятница','суббота','воскресенье'];
-var GENRES=['Классика','Постмодернизм','Современная проза','Уютная проза','Романтическое фэнтези','Фэнтези','Young adult','Детектив','Уютный детектив','Триллер','Готика','Романтика','Дарк-романс','Мифология и фольклор','Писательское мастерство','Нон-фикшн','Работа и менеджмент'];
+var GENRES=['Классика','Постмодернизм','Современная проза','Уютная проза','Романтическое фэнтези','Фэнтези','Young adult','Детектив','Уютный детектив','Триллер','Готика','Романтика','Дарк-романс','Мифология и фольклор','Писательское мастерство','Нон-фикшн','Работа и менеджмент','Научная фантастика','Антиутопия','Исторический роман','Ужасы','Психология','Биография'];
 var STATUS_LABEL={reading:'Читаю сейчас',planned:'В планах',paused:'На паузе',done:'Дочитано'};
 var pad=function(n){return String(n).padStart(2,'0');};
 var ymd=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
@@ -1015,6 +1020,48 @@ function celebrate(text){
   }
   setTimeout(function(){box.innerHTML='';},3600);
 }
+function summaryText(){
+  var now=new Date(),yr=now.getFullYear(),L=enriched();
+  function top(map,n){return Object.keys(map).sort(function(a,b){return map[b]-map[a]||a.localeCompare(b,'ru');}).slice(0,n);}
+  function avg(a){return a.length?a.reduce(function(x,y){return x+y;},0)/a.length:0;}
+  var books=S.books.filter(function(b){return b.kind!=='fanfic';}),fics=S.books.filter(function(b){return b.kind==='fanfic';});
+  var done=books.filter(function(b){return b.status==='done';}),doneY=doneInYear(yr,'book');
+  var o=['Сводка моего чтения для портрета читателя (дата: '+todayS()+').',''];
+  o.push('Цель года: '+(+S.goals.yearBooks>0?(doneY.length+' из '+S.goals.yearBooks+' книг дочитано в '+yr):('цель не задана, дочитано в '+yr+': '+doneY.length))+'. Всего дочитано за всё время в дневнике: '+done.length+'.');
+  var gcA={},gcY={};done.forEach(function(b){var g=(b.genre||'').trim();if(!g)return;gcA[g]=(gcA[g]||0)+1;});doneY.forEach(function(b){var g=(b.genre||'').trim();if(!g)return;gcY[g]=(gcY[g]||0)+1;});
+  if(top(gcA,1).length)o.push('Жанры за всё время (книг): '+top(gcA,8).map(function(g){return g+' '+gcA[g];}).join(', ')+'.');
+  if(top(gcY,1).length)o.push('Жанры в '+yr+': '+top(gcY,8).map(function(g){return g+' '+gcY[g];}).join(', ')+'.');
+  var fd=dayFormats(S.logs),fy=dayFormats(S.logs.filter(function(l){return String(l.date).slice(0,4)===String(yr);}));
+  function fmtLine(d){return FALL.filter(function(f){return d[f];}).map(function(f){return (f==='unk'?'формат не указан':FMT[f].name.toLowerCase())+' '+d[f];}).join(', ');}
+  o.push('Форматы, дней чтения за всё время: '+fmtLine(fd)+'.');
+  o.push('Форматы, дней чтения в '+yr+': '+(fmtLine(fy)||'нет данных')+'.');
+  var rated=done.filter(function(b){return +b.rating>0;});
+  if(rated.length){o.push('Средняя оценка: '+comma(avg(rated.map(function(b){return +b.rating;})).toFixed(1))+' из 5 (оценено книг: '+rated.length+').');
+    var gr={};rated.forEach(function(b){var g=(b.genre||'').trim();if(g)(gr[g]=gr[g]||[]).push(+b.rating);});
+    var bg=Object.keys(gr).filter(function(g){return gr[g].length>=2;}).sort(function(a,b){return avg(gr[b])-avg(gr[a]);}).slice(0,3);
+    if(bg.length)o.push('Выше всего оцениваю жанры: '+bg.map(function(g){return g+' ('+comma(avg(gr[g]).toFixed(1))+')';}).join(', ')+'.');}
+  var paced=done.map(function(b){return {b:b,n:paceOf(b)};}).filter(function(x){return x.n>0;});
+  if(paced.length){var sp=paced.slice().sort(function(a,b){return a.n-b.n;});o.push('Темп: в среднем '+Math.round(avg(paced.map(function(x){return x.n;})))+' дн. на книгу; быстрее всего «'+sp[0].b.title+'» ('+sp[0].n+' дн.), дольше всего «'+sp[sp.length-1].b.title+'» ('+sp[sp.length-1].n+' дн.).');}
+  var ac={};done.forEach(function(b){var a=(b.author||'').trim();if(a)ac[a]=(ac[a]||0)+1;});
+  var al=top(ac,5).filter(function(a){return ac[a]>=2;});if(al.length)o.push('Авторы, к которым возвращаюсь: '+al.map(function(a){return a+' ('+ac[a]+')';}).join(', ')+'.');
+  var days=new Set(L.map(function(l){return l.date;})),dy=0;days.forEach(function(d){if(String(d).slice(0,4)===String(yr))dy++;});
+  o.push('Дней с чтением в '+yr+': '+dy+'. Серия подряд сейчас: '+streakOf(L)+' дн.');
+  var rd=books.filter(function(b){return (b.status||'reading')==='reading';}),ps=books.filter(function(b){return b.status==='paused';});
+  if(rd.length)o.push('Читаю сейчас: '+rd.map(function(b){return '«'+b.title+'»'+(b.author?' ('+b.author+')':'');}).join('; ')+'.');
+  if(ps.length)o.push('На паузе: '+ps.map(function(b){return '«'+b.title+'»';}).join('; ')+'.');
+  o.push('В планах книг: '+books.filter(function(b){return b.status==='planned';}).length+'.');
+  if(fics.length){var fc={};fics.forEach(function(b){var f=(b.fandom||'').trim()||'без фандома';fc[f]=(fc[f]||0)+1;});o.push('Фанфики: '+fics.length+' ('+fics.filter(function(b){return b.status==='done';}).length+' дочитано). Фандомы: '+top(fc,5).map(function(f){return f+' '+fc[f];}).join(', ')+'.');}
+  var rv=done.filter(function(b){return (b.note||'').trim();}).sort(function(a,b){return String(b.finishedAt||'').localeCompare(String(a.finishedAt||''));}).slice(0,20);
+  if(rv.length){o.push('');o.push('Мои отзывы (последние):');rv.forEach(function(b){var t=b.note.trim().replace(/\s+/g,' ');if(t.length>200)t=t.slice(0,200)+'…';o.push('— «'+b.title+'»'+(+b.rating>0?' ('+b.rating+'/5)':'')+': '+t);});}
+  o.push('');o.push('Напиши, пожалуйста, мой портрет читателя по этой сводке: что я читаю, какие закономерности и что изменилось.');
+  return o.join('\n');
+}
+async function copySummary(){
+  var t=summaryText(),ok=false;
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t);ok=true;}}catch(e){}
+  if(!ok){try{var ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.appendChild(ta);ta.focus();ta.select();ok=document.execCommand('copy');ta.remove();}catch(e){}}
+  toast(ok?'Сводка скопирована. Вставь её в чат с Claude':'Не удалось скопировать');
+}
 function exportData(){
   var data={app:'Книжный дневник',exportedAt:new Date().toISOString(),goals:S.goals,books:S.books.map(strip),logs:S.logs.map(strip)};
   data.books.forEach(function(b,k){b.id=S.books[k].id;});data.logs.forEach(function(l,k){l.id=S.logs[k].id;});
@@ -1076,7 +1123,7 @@ function render(){
     else h+=viewYear(by,Lp,a,b,L,fin);
   }
   var hasSample=S.books.some(function(b){return b.sample;});
-  h+='<div class="foot">'+(hasSample?'<button class="linkbtn" data-act="clearSample">Убрать примеры</button>':'')+'<button class="linkbtn" data-act="export">Сохранить копию данных</button><button class="linkbtn" data-act="import">Загрузить копию</button>'+(window.RT_USER?'<button class="linkbtn" data-act="logout">Выйти ('+esc(window.RT_USER.email||'')+')</button>':'')+'</div>';
+  h+='<div class="foot">'+(hasSample?'<button class="linkbtn" data-act="clearSample">Убрать примеры</button>':'')+'<button class="linkbtn" data-act="copySummary">Скопировать сводку для Claude</button><button class="linkbtn" data-act="export">Сохранить копию данных</button><button class="linkbtn" data-act="import">Загрузить копию</button>'+(window.RT_USER?'<button class="linkbtn" data-act="logout">Выйти ('+esc(window.RT_USER.email||'')+')</button>':'')+'</div>';
   var keep=null;if(S.view==='year'){var hv=$('#heat');if(hv)keep=hv.scrollLeft;}
   var sig=S.view+'|'+S.cursor.getFullYear()+'-'+S.cursor.getMonth()+'|'+S.filter+'|'+S.pScope;
   main.classList.toggle('anim',sig!==lastSig);lastSig=sig;
@@ -1097,6 +1144,12 @@ var FMT_ITEMS=FKEYS.map(function(f){return {v:f,t:FMT[f].name,icon:FMT[f].icon,c
 var RATE_ITEMS=[1,2,3,4,5].map(function(n){return {v:String(n),t:n+'★'};});
 var val=function(sel){var el=$(sel,panel);return el?el.value:'';};
 function setSeg(name,v){panel.querySelectorAll('[data-seg="'+name+'"] button').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.val===v));});}
+function genreChips(){
+  var cnt={};S.books.forEach(function(b){if(b.genre)cnt[b.genre]=(cnt[b.genre]||0)+1;});
+  var set=GENRES.slice();Object.keys(cnt).forEach(function(g){if(set.indexOf(g)<0)set.push(g);});
+  set.sort(function(a,b){return (cnt[b]||0)-(cnt[a]||0)||GENRES.indexOf(a)-GENRES.indexOf(b);});
+  return '<div class="gchips" id="gchips">'+set.map(function(g){return '<button type="button" class="gchip" data-g="'+esc(g)+'">'+esc(g)+'</button>';}).join('')+'</div>';
+}
 function genreOptions(){var set=GENRES.slice();S.books.forEach(function(b){if(b.genre&&set.indexOf(b.genre)<0)set.push(b.genre);});return '<datalist id="genre-list">'+set.map(function(g){return '<option value="'+esc(g)+'"></option>';}).join('')+'</datalist>';}
 
 function openLog(opt){
@@ -1185,7 +1238,7 @@ function openBook(opt){
    +'<div class="field"><label for="bk-title">Название</label><input type="text" id="bk-title" value="'+esc(ed?ed.title:'')+'" autocomplete="off"></div>'
    +'<div class="field" id="bk-auth"><label for="bk-author">Автор</label><input type="text" id="bk-author" value="'+esc(ed?ed.author:'')+'" autocomplete="off"></div>'
    +'<div id="bk-fic"><div class="field"><label for="bk-fandom">Фандом</label><input type="text" id="bk-fandom" value="'+esc(ed?ed.fandom:'')+'" autocomplete="off"></div><div class="field"><label for="bk-pair">Пейринг</label><input type="text" id="bk-pair" value="'+esc(ed?ed.pairing:'')+'" autocomplete="off"></div></div>'
-   +'<div class="field"><label for="bk-genre">Жанр</label><input type="text" id="bk-genre" list="genre-list" placeholder="выбери или впиши свой" value="'+esc(ed?ed.genre:'')+'" autocomplete="off">'+genreOptions()+'<button type="button" class="linkbtn" id="bk-suggest" style="align-self:flex-start;padding-left:0" hidden>'+IC.spark+' Подсказать жанр</button></div>'
+   +'<div class="field"><label for="bk-genre">Жанр</label><input type="text" id="bk-genre" list="genre-list" placeholder="выбери ниже или впиши свой" value="'+esc(ed?ed.genre:'')+'" autocomplete="off">'+genreChips()+'<button type="button" class="linkbtn" id="gmore" aria-expanded="false">Все жанры</button>'+genreOptions()+'<button type="button" class="linkbtn" id="bk-suggest" style="align-self:flex-start;padding-left:0" hidden>'+IC.spark+' Подсказать жанр</button></div>'
    +'<div class="field"><span class="lbl">Обычно читаю в формате</span>'+segHtml('fmt',FMT_ITEMS,fmt)+'</div>'
    +'<div class="field" id="bk-apply" hidden><label class="check"><input type="checkbox" id="bk-applychk" checked> Поменять формат во всех днях чтения этой книги</label></div>'
    +'<div class="field"><span class="lbl">Статус</span>'+segHtml('status',[{v:'reading',t:'Читаю'},{v:'planned',t:'В планах'},{v:'paused',t:'Пауза'},{v:'done',t:'Дочитано'}],status)+'</div>'
@@ -1224,6 +1277,15 @@ function openBook(opt){
   syncApply();
   wireSeg('status',function(v){status=v;sync();});
   wireSeg('rate',function(v){rating=+v;});
+  (function(){
+    var gi=$('#bk-genre',panel),box=$('#gchips',panel);if(!gi||!box)return;
+    function gsync(){var v=gi.value.trim();Array.prototype.forEach.call(box.children,function(c){var on=c.dataset.g===v;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on?'true':'false');});}
+    box.addEventListener('click',function(e){var c=e.target.closest('.gchip');if(!c)return;gi.value=(gi.value.trim()===c.dataset.g)?'':c.dataset.g;gsync();lift();});
+    var more=$('#gmore',panel);
+    function lift(){if(box.classList.contains('open'))return;var on=box.querySelector('.gchip.on');if(on&&box.firstChild&&on.offsetTop>box.firstChild.offsetTop+6)box.insertBefore(on,box.firstChild);}
+    more.addEventListener('click',function(){var o=box.classList.toggle('open');more.textContent=o?'Свернуть':'Все жанры';more.setAttribute('aria-expanded',o?'true':'false');});
+    gi.addEventListener('input',function(){gsync();lift();});gsync();setTimeout(lift,60);
+  })();
   var sug=$('#bk-suggest',panel);
   if(window.claude&&window.claude.use){
     window.claude.use('sample').then(function(cap){
@@ -1364,6 +1426,7 @@ var H={
   export:function(){exportData();},
   import:function(){var f=$('#impfile');if(f){f.value='';f.click();}},
   logout:function(){if(window.RT_USER)window.RT_USER.out();},
+  copySummary:function(){copySummary();},
   close:function(){closeSheet();}
 };
 document.addEventListener('click',function(e){

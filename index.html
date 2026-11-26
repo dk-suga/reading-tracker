@@ -857,6 +857,14 @@ body[data-season] .panel>.season-trim{height:62px !important}
 .top>.header-actions{position:static !important;top:auto !important;right:auto !important;display:flex !important;flex-direction:row !important;align-items:center !important;justify-content:space-between !important;flex-wrap:nowrap !important;gap:10px !important;width:100% !important;margin:0 !important}
 .top>.header-actions .season-menu{flex:0 0 auto;margin-left:auto}
 .top>.header-actions .streak{flex:0 1 auto;max-width:calc(100% - 90px);white-space:nowrap}
+
+/* v10.7: Fix double garland on initial load.
+   Decorations use position:absolute, so each decorated section must
+   establish its own containing block instead of falling back to the page. */
+#main .card,
+#main .coach,
+#main .hero,
+#sheet .panel { position:relative; }
 </style>
 </head>
 <body>

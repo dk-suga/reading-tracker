@@ -784,6 +784,79 @@ body[data-season] .panel>.season-trim{height:62px !important}
  .vbook .spinetitle{font-size:8px !important}
  .season-select-wrap{min-width:70px !important;width:70px !important;max-width:70px !important}
 }
+
+/* v10.6: aligned mobile header, cover-grid catalog; no changes to storage or stats */
+@media(max-width:560px){
+  .top{padding-right:0 !important;gap:10px !important}
+  .top>.header-actions{
+    position:static !important;top:auto !important;right:auto !important;
+    display:flex !important;flex-direction:row !important;
+    justify-content:space-between !important;align-items:center !important;
+    gap:8px !important;width:100% !important;min-width:0 !important;
+    margin:0 !important;flex-wrap:nowrap !important;
+  }
+  .top>.header-actions .streak{
+    flex:0 1 auto;min-width:0;max-width:calc(100% - 92px);
+    padding:6px 11px !important;margin:0 !important;
+    font-size:13px !important;white-space:nowrap;
+  }
+  .top>.header-actions .season-menu{flex:0 0 auto;margin-left:auto}
+}
+/* A single grid of book covers is the second level of the bookshelf. */
+.shelf-catalog{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:12px 10px !important;
+  align-items:stretch;
+  margin:16px 0 12px;
+}
+.shelf-catalog .catalog-item{
+  display:block !important;
+  min-width:0;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+}
+.shelf-catalog .catalog-tile{
+  display:flex;flex-direction:column;align-items:stretch;
+  gap:7px;width:100%;height:100%;min-width:0;
+  background:var(--bg);border:1px solid var(--line);border-radius:12px;
+  padding:10px 9px 11px;text-align:left;color:var(--ink);
+  transition:box-shadow .18s,transform .18s,border-color .18s;
+}
+.shelf-catalog .catalog-tile:hover{border-color:var(--primary);box-shadow:0 5px 14px rgba(48,34,47,.10);transform:translateY(-2px)}
+.shelf-catalog .catalog-tile:focus-visible{outline:2px solid var(--ptext);outline-offset:3px}
+.shelf-catalog .catalog-tile .cov.catalog-cover{
+  width:100% !important;height:auto !important;aspect-ratio:2/3;
+  max-height:none !important;max-width:132px;
+  display:block;align-self:center;
+  border-radius:6px;object-fit:cover;object-position:top;
+  box-shadow:0 2px 7px rgba(47,41,56,.20);
+}
+.shelf-catalog .catalog-tile .cov.ph.catalog-cover{
+  display:grid;place-items:center;font:700 25px/1 var(--font-display);
+}
+.shelf-catalog .catalog-title{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;overflow-wrap:anywhere;
+  font-weight:650;font-size:12.5px;line-height:1.3;
+  min-height:2.6em;
+}
+.shelf-catalog .catalog-author{
+  color:var(--muted);font-size:11.5px;line-height:1.3;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+}
+@media(max-width:360px){
+  .shelf-catalog{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important}
+  .shelf-catalog .catalog-title{font-size:12px}
+}
+
+
+/* v10.6 final header alignment: use one full-width action row on all screens */
+.top{display:flex !important;flex-direction:column !important;align-items:stretch !important;gap:10px !important;padding-right:0 !important}
+.top>.header-actions{position:static !important;top:auto !important;right:auto !important;display:flex !important;flex-direction:row !important;align-items:center !important;justify-content:space-between !important;flex-wrap:nowrap !important;gap:10px !important;width:100% !important;margin:0 !important}
+.top>.header-actions .season-menu{flex:0 0 auto;margin-left:auto}
+.top>.header-actions .streak{flex:0 1 auto;max-width:calc(100% - 90px);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1438,15 +1511,20 @@ function shelfListHtml(){
    var list=groupBooks(g);if(!list.length)return;
    h+='<div class="sgrp"><div class="ghead"><button class="plaque" data-act="openGrp" data-g="'+g+'">'+STATUS_LABEL[g]+' · '+list.length+'</button></div>';
    h+=shelfRows(list,g,available,1);
-   if(list.length>0)h+='<p class="morehint">Нажми на плашку раздела, чтобы открыть весь список.</p>';
    h+='</div>';
  });
  return h?'<div class="case">'+h+'</div>':'<p class="muted">Ничего не нашлось.</p>';
 }
 function openShelfGroup(g){
- var list=groupBooks(g),info=infoFor(enriched());if(!list.length)return;
+ var list=groupBooks(g);if(!list.length)return;
  var h='<h2>'+esc(STATUS_LABEL[g])+'</h2><p class="muted">'+list.length+' '+pl(list.length,['книга','книги','книг'])+'</p>';
- h+='<div class="shelf-catalog">'+list.map(function(b){return '<div class="catalog-item">'+bookRow(b,info[b.id],{showLast:true,actions:true})+'</div>';}).join('')+'</div>';
+ h+='<div class="shelf-catalog">'+list.map(function(b){
+   var author=subOf(b);
+   return '<div class="catalog-item"><button type="button" class="catalog-tile" data-act="selBook" data-id="'+esc(b.id)+'" data-g="'+g+'" aria-label="Открыть книгу '+esc(b.title)+'">'
+     +cover(b,'catalog-cover')+'<span class="catalog-title">'+esc(b.title)+'</span>'
+     +(author?'<span class="catalog-author">'+esc(author)+'</span>':'')
+     +'</button></div>';
+ }).join('')+'</div>';
  h+='<div class="foot2"><button class="btn ghost" data-act="close">Закрыть</button></div>';
  openSheet(h);
 }
@@ -1463,9 +1541,10 @@ function dayStrip(b){
   else{var wk=Math.ceil(span/7);for(i=0;i<wk;i++){var cnt=0;for(var k=0;k<7;k++){if(byD[ymd(addDays(A,i*7+k))])cnt++;}c+='<i class="sd w'+Math.min(4,cnt)+'" title="неделя с '+short(ymd(addDays(A,i*7)))+': '+cnt+' дн."></i>';}}
   return '<div class="strip">'+c+'</div>';
 }
-function openBookDetail(id){
+function openBookDetail(id,fromGroup){
   var b=bookById(id);if(!b)return;
   var L=S.logs.filter(function(l){return l.bookId===id;}),days=new Set(L.map(function(l){return l.date;})).size;
+  var totalMinutes=L.reduce(function(sum,l){return sum+(+l.minutes||0);},0);
   var inf=infoFor(enriched().filter(function(l){return l.bookId===id;}))[id],per=periodOf(b,inf);
   var fms=Array.from(new Set(L.map(function(l){return l.format;}))).filter(function(f){return FMT[f];});
   var badges='';
@@ -1475,9 +1554,9 @@ function openBookDetail(id){
   if(+b.rating>0)badges+='<span class="badge star">'+IC.star+b.rating+'</span>';
   var legend=fms.length?'<div class="legend">'+fms.map(function(f){return '<span class="'+f+'">'+FMT[f].icon+FMT[f].name+'</span>';}).join('')+'</div>':'';
   openSheet('<div class="bhead">'+cover(b,'l')+'<div style="min-width:0"><h2>'+esc(b.title)+'</h2><div class="muted">'+esc(subOf(b))+'</div><div class="badges">'+badges+'</div></div></div>'
-   +'<div class="field" style="margin-top:16px"><span class="lbl">Когда читала</span><div class="perline">'+(per?esc(per):'Даты не указаны')+(days?' · '+days+' '+pl(days,['день','дня','дней']):'')+'</div>'+dayStrip(b)+legend+'</div>'
+   +'<div class="field" style="margin-top:16px"><span class="lbl">Когда читала</span><div class="perline">'+(per?esc(per):'Даты не указаны')+(days?' · '+days+' '+pl(days,['день','дня','дней']):'')+(totalMinutes?' · '+totalMinutes+' мин':'')+'</div>'+dayStrip(b)+legend+'</div>'
    +'<div class="field"><span class="lbl">Отзыв</span>'+(b.note?'<p class="review">'+esc(b.note).replace(/\n/g,'<br>')+'</p>':'<p class="muted" style="margin:0">Пока нет. Нажми «Изменить» и коротко напиши, что думаешь о книге.</p>')+'</div>'
-   +'<div class="foot2"><button type="button" class="btn ghost" data-act="close">Закрыть</button><div class="r"><button type="button" class="btn ghost" data-act="editBook" data-id="'+esc(b.id)+'">Изменить</button><button type="button" class="btn" data-act="addLog" data-b="'+esc(b.id)+'">Отметить чтение</button></div></div>');
+   +'<div class="foot2"><button type="button" class="btn ghost" data-act="'+(fromGroup?'openGrp':'close')+'"'+(fromGroup?' data-g="'+esc(fromGroup)+'"':'')+'>'+(fromGroup?'← К каталогу':'Закрыть')+'</button><div class="r"><button type="button" class="btn ghost" data-act="editBook" data-id="'+esc(b.id)+'">Изменить</button><button type="button" class="btn" data-act="addLog" data-b="'+esc(b.id)+'">Отметить чтение</button></div></div>');
 }
 function viewShelf(){
   return '<section class="sec"><div class="dhead"><h2 style="margin:0">Полка</h2><button class="btn" data-act="addBook">'+IC.plus+'Добавить</button></div><input class="search" type="search" id="q" placeholder="Название, автор, жанр" value="'+esc(S.q)+'" autocomplete="off"><div id="shelfList">'+shelfListHtml()+'</div></section>';
@@ -2010,7 +2089,7 @@ var H={
   addLog:function(t){openLog({date:t.dataset.d||undefined,bookId:t.dataset.b||undefined});},
   editLog:function(t){var l=S.logs.find(function(x){return x.id===t.dataset.id;});if(l)openLog({log:l});},
   addBook:function(){openBook({});},
-  selBook:function(t){openBookDetail(t.dataset.id);},
+  selBook:function(t){openBookDetail(t.dataset.id,t.dataset.g||null);},
   openGrp:function(t){openShelfGroup(t.dataset.g);},
   toggleGrp:function(t){S.open=S.open||{};S.open[t.dataset.g]=!S.open[t.dataset.g];var e=$('#shelfList');if(e)e.innerHTML=shelfListHtml();},
   editBook:function(t){var b=bookById(t.dataset.id);if(b)openBook({book:b});},

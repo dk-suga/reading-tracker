@@ -632,6 +632,15 @@ body[data-season] #pet>.season-trim,.plank .shelf-trim{height:42px !important}
 .season-opt:hover,.season-opt.active{background:#F5EAF0;color:var(--ink)}
 @media(max-width:560px){.season-menu-btn{height:35px;min-width:72px;padding:0 11px;gap:8px}.season-menu-pop{min-width:168px;top:calc(100% + 6px)}.season-opt{font-size:15px;padding:9px 11px}}
 
+
+/* v10.5 mobile header + shelf preview */
+@media(max-width:560px){
+  .top{display:flex !important;flex-direction:column;align-items:stretch;gap:8px}
+  .top>.header-actions{position:static !important;order:2;right:auto !important;top:auto !important;margin-left:auto;display:flex !important;flex-direction:row !important;align-items:center !important;justify-content:flex-end !important;gap:8px !important}
+  .streak{max-width:100%;font-size:13px;padding:6px 11px}
+}
+.sgrp .morehint{margin:8px 4px 0;color:var(--muted);font-size:13px}
+
 </style>
 <style>
 body{margin:0;background:var(--bg);color:var(--ink)}
@@ -1026,6 +1035,9 @@ function seasonVector(name,placement,width,variant){
   }
   return '<svg viewBox="0 0 '+w+' 62" preserveAspectRatio="xMidYMin meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+pieces.join('')+'</svg>';
 }
+var decorRAF=0;
+function queueDecor(){if(decorRAF&&window.cancelAnimationFrame)cancelAnimationFrame(decorRAF);if(window.requestAnimationFrame){decorRAF=requestAnimationFrame(function(){decorRAF=0;decorateAll();});}else{setTimeout(decorateAll,0);}}
+
 function decorateAll(){
   document.documentElement.setAttribute('data-theme','light');
   document.body.setAttribute('data-season',S.season);
@@ -1376,7 +1388,7 @@ function horizontalStack(arr){
    return '<button class="hbook" style="--w:'+w+'px;--sh:'+h+'px;--base:'+a[0]+';--shine:'+a[1]+';--edge:'+a[2]+';--txt:'+a[3]+';--metal:'+a[4]+'" data-act="selBook" data-id="'+esc(b.id)+'" title="'+esc(b.title)+'" aria-label="Открыть книгу '+esc(b.title)+'"><span class="hspine"></span><span class="hspinetitle"><span>'+esc(spineName(b.title,18))+'</span></span></button>';
   }).join('')+'</span>';
 }
-function shelfRows(books,g,available){
+function shelfRows(books,g,available,maxRows){
   var rows=[],i=0,idx=0,guard=0;
   /* Each row uses a varying rhythm. All distances include actual CSS gap and margins. */
   var rhythms={
@@ -1408,6 +1420,7 @@ function shelfRows(books,g,available){
     }
     if(i===origin){cells.push(standingBook(books[i],g));i++;}
     rows.push('<div class="shelf"><div class="books">'+cells.join('')+'</div><div class="plank"></div></div>');idx++;
+    if(maxRows&&rows.length>=maxRows)break;
   }
   return rows.join('');
 }
@@ -1424,7 +1437,9 @@ function shelfListHtml(){
  groups.forEach(function(g){
    var list=groupBooks(g);if(!list.length)return;
    h+='<div class="sgrp"><div class="ghead"><button class="plaque" data-act="openGrp" data-g="'+g+'">'+STATUS_LABEL[g]+' · '+list.length+'</button></div>';
-   h+=shelfRows(list,g,available)+'</div>';
+   h+=shelfRows(list,g,available,1);
+   if(list.length>0)h+='<p class="morehint">Нажми на плашку раздела, чтобы открыть весь список.</p>';
+   h+='</div>';
  });
  return h?'<div class="case">'+h+'</div>':'<p class="muted">Ничего не нашлось.</p>';
 }
@@ -1652,9 +1667,9 @@ function render(){
   $('#notice').innerHTML=nt?'<div class="notice">'+nt+'</div>':'';
   var filters='<div class="filters" role="group" aria-label="Что показывать">'+[['all','Всё'],['book','Книги'],['fanfic','Фанфики']].map(function(f){return '<button class="pill" data-act="filter" data-f="'+f[0]+'" aria-pressed="'+(S.filter===f[0])+'">'+(f[0]==='fanfic'?IC.feather:'')+f[1]+'</button>';}).join('')+'</div>';
   var main=$('#main');
-  if(!(S.ready.books&&S.ready.logs)){$('#bar').innerHTML='';main.innerHTML='<p class="muted" style="margin-top:24px">Открываю дневник…</p>';decorateAll();return;}
+  if(!(S.ready.books&&S.ready.logs)){$('#bar').innerHTML='';main.innerHTML='<p class="muted" style="margin-top:24px">Открываю дневник…</p>';queueDecor();return;}
   renderPet(L);
-  if(!S.books.length){$('#bar').innerHTML='';main.innerHTML=hero();decorateAll();return;}
+  if(!S.books.length){$('#bar').innerHTML='';main.innerHTML=hero();queueDecor();return;}
   var h;
   if(S.view==='shelf'||S.view==='portrait'){
     $('#bar').innerHTML='<div></div>'+filters;
@@ -1677,7 +1692,7 @@ function render(){
   var sig=S.view+'|'+S.cursor.getFullYear()+'-'+S.cursor.getMonth()+'|'+S.filter+'|'+S.pScope;
   main.classList.toggle('anim',sig!==lastSig);lastSig=sig;
   main.innerHTML=h;
-  decorateAll();
+  queueDecor();
   suggestAnnualGoal();
   if(S.view==='year'){var hv2=$('#heat');if(hv2){if(keep!=null&&keep>0)hv2.scrollLeft=keep;else{var cur=new Date();if(cur.getFullYear()===S.cursor.getFullYear()){var j1=new Date(cur.getFullYear(),0,1),fr=Math.floor(((cur-addDays(j1,-dow(j1)))/86400000)/7);hv2.scrollLeft=Math.max(0,fr*15-hv2.clientWidth/2);}}}}
 }
@@ -1685,7 +1700,7 @@ function render(){
 /* ---------- sheets ---------- */
 var sheet=$('#sheet'),panel=$('.panel',sheet),lastFocus=null,toastT=null;
 function toast(msg){var t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},2600);}
-function openSheet(html){lastFocus=document.activeElement;panel.innerHTML=html;sheet.hidden=false;document.body.classList.add('lock');panel.scrollTop=0;decorateAll();}
+function openSheet(html){lastFocus=document.activeElement;panel.innerHTML=html;sheet.hidden=false;document.body.classList.add('lock');panel.scrollTop=0;queueDecor();}
 function closeSheet(){sheet.hidden=true;panel.innerHTML='';document.body.classList.remove('lock');if(lastFocus&&lastFocus.focus&&document.contains(lastFocus))lastFocus.focus();}
 sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet();});

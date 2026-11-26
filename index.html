@@ -641,6 +641,35 @@ body[data-season] #pet>.season-trim,.plank .shelf-trim{height:42px !important}
 }
 .sgrp .morehint{margin:8px 4px 0;color:var(--muted);font-size:13px}
 
+
+/* v10.8 — reliable iPhone date-picker width in "Отметить чтение".
+   The native iOS date field is kept interactive, but its visual presentation
+   is constrained by a responsive shell instead of its shadow-DOM intrinsic size. */
+#sheet .panel {min-width:0;max-width:min(520px,100%);overflow-x:hidden;overscroll-behavior:contain}
+#sheet .panel .field {min-width:0;max-width:100%}
+#sheet .panel .reading-date-wrap {
+  position:relative;display:flex;align-items:center;justify-content:center;
+  width:100%;min-width:0;max-width:100%;height:48px;
+  border:1px solid var(--line);border-radius:10px;
+  background:var(--bg);overflow:hidden;
+}
+#sheet .panel .reading-date-display {
+  display:block;max-width:calc(100% - 24px);overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;
+  text-align:center;font:500 16px/1.25 var(--font-body);color:var(--ink);
+  pointer-events:none;
+}
+#sheet .panel .reading-date-wrap input[type="date"] {
+  position:absolute !important;inset:0 !important;
+  width:100% !important;min-width:0 !important;max-width:100% !important;
+  height:100% !important;min-height:0 !important;
+  padding:0 !important;margin:0 !important;
+  border:0 !important;box-shadow:none !important;
+  opacity:0;cursor:pointer;font-size:16px !important;
+  -webkit-appearance:none;appearance:none;
+}
+#sheet .panel .reading-date-wrap:focus-within {outline:2px solid var(--ptext);outline-offset:2px}
+
 </style>
 <style>
 body{margin:0;background:var(--bg);color:var(--ink)}
@@ -1819,7 +1848,7 @@ function openLog(opt){
   var picksHtml=reading.length?'<div class="picks" id="lg-picks">'+reading.map(function(b){var f=lastFmtOf(b.id);return '<button type="button" class="pick '+f+'" data-id="'+esc(b.id)+'" aria-pressed="'+(b.id===bookId)+'">'+FMT[f].icon+'<span><b>'+esc(b.title)+'</b><small>'+esc(subOf(b)||(b.kind==='fanfic'?'фанфик':''))+'</small></span></button>';}).join('')+'</div>':'';
   var otherOpts=others.map(function(b){return '<option value="'+esc(b.id)+'"'+(b.id===bookId?' selected':'')+'>'+esc(b.title+(b.status==='planned'?' (в планах)':b.status==='paused'?' (пауза)':b.status==='done'?' (дочитано)':''))+'</option>';}).join('');
   var html='<h2>'+(ed?'Запись о чтении':'Отметить чтение')+'</h2>'
-   +'<div class="field"><label for="lg-date">Дата</label><input type="date" id="lg-date" value="'+date+'"></div>'
+   +'<div class="field"><label for="lg-date">Дата</label><div class="reading-date-wrap"><span class="reading-date-display" id="lg-date-display" aria-hidden="true"></span><input type="date" id="lg-date" value="'+date+'" aria-label="Дата чтения"></div></div>'
    +'<div class="field"><span class="lbl">'+(reading.length?'Читаю сейчас':'Что читала')+'</span>'+picksHtml
    +(others.length?'<select id="lg-other" aria-label="Другая книга"><option value="">'+(reading.length?'Другая книга из списка…':'Выбери книгу…')+'</option>'+otherOpts+'</select>':'')
    +'<button type="button" class="linkbtn" id="lg-new" style="align-self:flex-start;padding-left:0">Добавить новую книгу или фанфик</button></div>'
@@ -1829,6 +1858,19 @@ function openLog(opt){
    +'<div class="field" id="lg-rate" hidden><span class="lbl">Оценка</span>'+segHtml('rate',RATE_ITEMS,'')+'</div>'
    +'<div class="foot2">'+(ed?'<button type="button" class="btn danger" id="lg-del">Удалить запись</button>':'')+'<div class="r"><button type="button" class="btn ghost" data-act="close">Отмена</button><button type="button" class="btn" id="lg-save">Сохранить</button></div></div>';
   openSheet(html);
+  /* Keep the visible date in sync with the unchanged native input value. */
+  var logDateInput=$('#lg-date',panel),logDateDisplay=$('#lg-date-display',panel);
+  function syncLogDate(){
+    var value=logDateInput&&logDateInput.value||'',p=value.split('-');
+    logDateDisplay.textContent=p.length===3&&+p[1]>=1&&+p[1]<=12
+      ? (+p[2])+' '+MONTHS_GEN[+p[1]-1]+' '+p[0]
+      : 'Выбрать дату';
+  }
+  if(logDateInput&&logDateDisplay){
+    logDateInput.addEventListener('input',syncLogDate);
+    logDateInput.addEventListener('change',syncLogDate);
+    syncLogDate();
+  }
   var rating=0;
   function pick(id){
     bookId=id;

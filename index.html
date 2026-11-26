@@ -418,6 +418,220 @@ button.covbtn:hover{transform:translateY(-3px)}
 @media (prefers-reduced-motion:reduce){.sky .fly:nth-child(n+2){display:none}.fly{left:20px}#confetti{display:none}}
 @media (max-width:420px){.dwrap,.dragon-btn,.dragon{width:134px}.dragon-btn,.dragon{height:109px}.nav .label{min-width:7em;font-size:18px}.fmtrow{grid-template-columns:96px minmax(0,1fr) 30px}.tabs button{font-size:13px}.grow{grid-template-columns:minmax(80px,1.2fr) minmax(0,1.6fr) 58px}}
 @media (prefers-reduced-motion:no-preference){.tabs button,.pill,.day{transition:background .15s,border-color .15s}}
+
+.shelf-catalog{display:flex;flex-direction:column;gap:6px}.shelf-catalog .catalog-item{padding:2px 4px;border-bottom:1px solid var(--line)}.shelf-catalog .brow{border-top:0}.shelf-catalog .brow .bt{font-size:14px;line-height:1.3}
+/* v4: единая светлая основа и иллюстрированный декор, закреплённый на элементах интерфейса */
+:root{color-scheme:light!important}
+body{background:#F7F4F3!important;color:#2F2938}
+.header-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.season-select-wrap{position:relative;display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 28px 0 12px;box-shadow:0 2px 5px rgba(37,24,31,.035)}
+.season-select-wrap:after{content:"⌄";position:absolute;right:10px;top:45%;transform:translateY(-50%);pointer-events:none;color:var(--ptext);font-size:17px}
+.season-select-wrap select{appearance:none;-webkit-appearance:none;border:0;outline:0;background:transparent;color:var(--ink);font:600 13px var(--font-body);padding:10px 1px;max-width:220px;min-width:0;cursor:pointer}
+.season-select-wrap select:focus-visible{outline:2px solid var(--ptext);outline-offset:3px}
+.season-scenery{position:relative;overflow:hidden}
+.season-trim{position:absolute;z-index:2;pointer-events:none;left:8px;right:8px;top:0;height:37px;overflow:visible;opacity:.99}
+.season-trim svg{display:block;width:100%;height:100%;overflow:visible}
+body[data-season] #pet{padding-top:95px}
+body[data-season] #pet>.season-trim{top:1px;left:6px;right:6px;height:41px}
+body[data-season] .card,body[data-season] .coach,body[data-season] .hero{padding-top:43px}
+body[data-season] .card>.season-trim,body[data-season] .coach>.season-trim,body[data-season] .hero>.season-trim{top:3px}
+body[data-season] .card:first-child{margin-top:14px}
+body[data-season] .case{padding-top:14px}
+body[data-season] .panel{padding-top:51px}
+body[data-season] .panel>.season-trim{top:4px;height:39px}
+body[data-season] .top{position:relative;padding-bottom:22px;border-bottom:2px solid #E6DFE5;overflow:visible}
+body[data-season] .top>.season-trim{top:auto;bottom:-25px;left:2px;right:2px;height:32px}
+/* настоящее расположение книжек на единой доске */
+.case{border-radius:15px;background:#F3E9DF;border:7px solid #E6D0B9;box-shadow:inset 0 3px 15px #A87F5C1a,0 3px 10px #45301e10;padding:12px 10px 14px}
+.sgrp+.sgrp{margin-top:13px;padding-top:8px;border-top:1px solid #D9BCA766}
+.ghead{justify-content:space-between;gap:6px;margin:0 1px 9px}
+.ghead .plaque{margin:0}
+.plaque{display:inline-flex;align-items:center;border:0;cursor:pointer}
+.shelf{margin:0 0 8px;position:relative}
+.books{display:flex;align-items:flex-end;justify-content:flex-start;gap:3px;min-height:136px;padding:2px 7px 0;overflow:hidden;position:relative;z-index:1}
+.vbook{position:relative;flex:0 0 var(--bw);height:var(--bh);width:var(--bw);border:0;background:none;padding:0;display:block;cursor:pointer;transform:rotate(var(--lean));transform-origin:50% 100%}
+.vbook .spine{position:absolute;inset:0;border-radius:3px 5px 4px 3px;overflow:hidden;background:linear-gradient(90deg,var(--edge),var(--base) 13%,var(--base) 76%,var(--shine));box-shadow:inset 1px 0 1px #fff6,inset -1px 0 2px #0003,2px 2px 2px #39291745}
+.vbook .spine:before{content:"";position:absolute;inset:5px 4px;border-block:1px solid #ecd7a28c;pointer-events:none}
+.vbook .spine:after{content:"";position:absolute;top:14px;left:5px;right:5px;height:2px;background:var(--metal);opacity:.7}
+.vbook .spinetitle{position:absolute;inset:20px 5px 8px 5px;writing-mode:vertical-rl;transform:rotate(180deg);width:calc(100% - 10px);height:calc(100% - 28px);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.05;font-size:10px;font-weight:600;letter-spacing:.015em;text-align:left;color:var(--txt);font-family:Georgia,serif;text-shadow:0 1px 0 #0002}
+.vbook .rib{position:absolute;top:-5px;right:3px;width:9px;height:18px;background:var(--ptext);clip-path:polygon(0 0,100% 0,100% 100%,50% 75%,0 100%);z-index:3}
+.hstack{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0;flex:0 0 var(--sw);margin:0 2px 0 4px;position:relative;z-index:1}
+.hbook{position:relative;display:block;flex:none;height:var(--sh);width:var(--w);max-width:100%;padding:0;border:0;background:none;cursor:pointer}
+.hbook .hspine{position:absolute;inset:0;border-radius:3px 6px 5px 3px;box-shadow:2px 2px 3px #46302144,inset 0 1px #fffa;background:linear-gradient(180deg,var(--shine) 0,var(--base) 24%,var(--base) 78%,var(--edge) 100%)}
+.hbook .hspine:before{content:"";position:absolute;left:3px;top:2px;bottom:2px;width:7px;border-radius:1px;background:linear-gradient(90deg,#f8f0db,#dbd1b9);box-shadow:1px 0 1px #0002}
+.hbook .hspinetitle{position:absolute;inset:0 7px 0 17px;display:flex;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:600 9px Georgia,serif;color:var(--txt)}
+.hbook .hspinetitle>span{overflow:hidden;text-overflow:ellipsis}
+.plank{position:relative;height:14px;margin:0 -4px;border-radius:3px;background:linear-gradient(180deg,#F0DDC6 0%,#D7B897 62%,#B99572 100%);box-shadow:0 4px 5px #52331d38,inset 0 2px 1px #fffa;z-index:2}
+.plank:after{content:"";position:absolute;bottom:-3px;left:1px;right:1px;border-bottom:1px solid #9E75576b}
+.plank .shelf-trim{height:28px;top:10px;left:0;right:0;z-index:3}
+.plank .shelf-trim svg{width:100%;height:100%}
+.shelf-ornament{position:absolute;right:16px;bottom:13px;width:65px;height:40px;z-index:3;pointer-events:none}
+.shelf-ornament svg{width:100%;height:100%;display:block}
+.case .season-trim.case-trim{top:1px;left:3px;right:3px;height:38px}
+.vbook:hover,.hbook:hover{filter:brightness(1.08);transform:translateY(-3px)}
+.vbook:focus-visible,.hbook:focus-visible{outline:2px solid #B04A83;outline-offset:4px}
+@media(max-width:560px){.header-actions{gap:5px}.season-select-wrap select{font-size:12px;max-width:170px}.books{gap:2px;min-height:127px;padding:1px 5px 0}.hstack{margin:0 2px}.case{padding-inline:7px}.season-trim{height:34px}body[data-season] .card,body[data-season] .coach{padding-top:40px}.shelf-ornament{width:48px;height:32px;right:5px}}
+
+/* refinements: quiet header, anchored picker and uninterrupted shelf scene */
+.top{position:relative;min-height:66px;padding-right:64px}
+.top>.header-actions{position:absolute;right:0;top:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px;margin:0}
+.season-select-wrap{height:41px;width:54px;border-radius:12px;padding:0 16px 0 10px;justify-content:center;position:relative}
+.season-trigger{font-size:20px;line-height:1;pointer-events:none}
+.season-select-wrap select{position:absolute;inset:0;width:100%;height:100%;opacity:.01;appearance:auto;border:0;cursor:pointer}
+body[data-season] .top{padding-bottom:0;border-bottom:0}
+body[data-season] .case{padding-top:14px}
+@media(max-width:560px){.top h1{font-size:28px}.season-select-wrap{width:49px;height:39px}}
+
+@media(max-width:600px){body.shelf-active .fab{width:52px;height:52px;border-radius:50%;padding:11px;display:flex;align-items:center;justify-content:center}body.shelf-active .fab .ic{width:23px;height:23px}}
+
+/* v5 — actual-sized, physically anchored decorations and denser shelves */
+body[data-season] .card,body[data-season] .coach,body[data-season] .hero{padding-top:47px}
+.season-trim{height:53px;left:12px;right:12px;top:0;overflow:visible}
+.season-trim svg{display:block;height:53px;width:100%;overflow:visible}
+body[data-season] #pet{padding-top:109px}
+body[data-season] #pet>.season-trim{height:53px;top:0;left:8px;right:8px}
+body[data-season] .panel{padding-top:57px}
+body[data-season] .panel>.season-trim{height:53px}
+/* Shelves render ALL records, and rows grow based on actual amount */
+.case{padding:15px 11px 21px;background:#F3E9DF}
+.sgrp+.sgrp{margin-top:18px;padding-top:13px}
+.shelf{margin:0 0 49px;overflow:visible}
+.shelf-hint{font-size:11px;padding-right:6px}
+.books{min-height:171px;gap:2px;padding:7px 8px 0;justify-content:flex-start;overflow:visible;align-items:flex-end;z-index:1}
+.vbook{flex:0 0 var(--bw);width:var(--bw);height:var(--bh)}
+.vbook .spine{border-radius:3px 5px 3px 3px;background:linear-gradient(90deg,var(--edge) 0%,var(--base) 12%,var(--base) 70%,var(--shine) 96%,var(--edge) 100%);box-shadow:inset -2px 0 2px #0A11152a,inset 1px 0 #ffffff35,2px 2px 3px #31241955}
+.vbook .spine:before{inset:4px 3px;border-block:1px solid var(--metal);opacity:.85}
+.vbook .spine:after{top:10px;left:4px;right:4px;height:1px;background:var(--metal);opacity:.8}
+.vbook .spinetitle{inset:24px 4px 20px;white-space:nowrap;max-width:calc(100% - 8px);width:calc(100% - 8px);height:calc(100% - 44px);overflow:hidden;text-overflow:clip;font-size:clamp(8px, 1vw, 10px);line-height:1.2;letter-spacing:0;font-weight:600;writing-mode:vertical-rl;transform:rotate(180deg);color:var(--txt);text-align:center;display:block;font-family:Georgia,serif}
+.vbook .book-foil{position:absolute;left:4px;right:4px;height:5px;border-block:1px solid var(--metal);opacity:.9}
+.vbook .top-foil{top:18px}.vbook .bottom-foil{bottom:12px}
+.vbook.style-1 .spine:before,.vbook.style-3 .spine:before{border-left:1px solid var(--metal);border-right:1px solid var(--metal)}
+.vbook.style-2 .book-foil{height:9px;background:linear-gradient(to bottom,transparent 30%,var(--metal) 40%,transparent 55%);opacity:.4}
+.vbook.style-4 .spine{border-radius:2px 3px 3px 2px}
+.hstack{flex:0 0 var(--sw);margin:0 5px 0 5px;align-items:center;gap:0}
+.hbook{border-radius:2px;filter:drop-shadow(1px 1px 1px #573e304a)}
+.hbook .hspine{background:linear-gradient(180deg,var(--shine),var(--base) 23%,var(--base) 75%,var(--edge));box-shadow:0 2px 2px #573e3040,inset 0 1px #fffb}
+.hbook .hspine:after{content:"";position:absolute;right:3px;top:3px;bottom:3px;width:4px;border-left:1px solid var(--metal);border-right:1px solid var(--metal);opacity:.75}
+.hbook .hspinetitle{font-size:9px;color:var(--txt);right:12px}
+.plank .shelf-trim{top:11px;left:6px;right:6px;height:53px;overflow:visible}
+.plank .shelf-trim svg{height:53px;width:100%}
+.shelf-ornament{height:49px;width:90px;right:12px;bottom:13px;z-index:2;overflow:visible}
+.shelf-ornament svg{width:100%;height:100%;overflow:visible}
+/* decorations must never push book labels or stretch hearts */
+@media(max-width:560px){
+ .books{min-height:170px;gap:2px;padding:6px 4px 0;overflow:visible}
+ .season-trim,body[data-season] #pet>.season-trim{height:53px}
+ .season-trim svg{height:53px}
+ .shelf-ornament{width:76px;height:42px;right:5px}
+ .shelf-hint{display:none}
+ .plank .shelf-trim,.plank .shelf-trim svg{height:53px}
+}
+
+/* v6 fixes: separate palette/caret, unflattened asymmetric shelf garlands, cleaner spine labels */
+.header-actions{display:flex;align-items:flex-start;gap:8px}
+.top>.header-actions{flex-direction:row;align-items:flex-start}
+.season-select-wrap{position:relative;display:inline-grid !important;grid-template-columns:auto 16px;align-items:center;gap:8px;width:auto !important;min-width:66px;height:42px;padding:0 10px 0 12px !important;border-radius:14px;overflow:hidden}
+.season-select-wrap:after{display:none !important}
+.season-trigger{font-size:21px;line-height:1;pointer-events:none}
+.season-caret{display:flex;align-items:center;justify-content:center;height:100%;padding-left:8px;border-left:1px solid #E1D7DE;color:var(--ptext);font-size:14px;line-height:1;pointer-events:none}
+.season-select-wrap select{position:absolute !important;inset:0;width:100%;height:100%;opacity:.01;cursor:pointer}
+.season-trim{height:62px !important;left:10px;right:10px;overflow:visible}
+.season-trim svg{height:62px !important}
+body[data-season] #pet{padding-top:114px}
+body[data-season] #pet>.season-trim{height:62px !important;left:8px;right:8px}
+body[data-season] .card,body[data-season] .coach,body[data-season] .hero{padding-top:52px}
+body[data-season] .panel{padding-top:62px}
+body[data-season] .panel>.season-trim{height:60px !important}
+.plank .shelf-trim{top:8px !important;left:8px !important;right:8px !important;height:46px !important;overflow:visible}
+.plank .shelf-trim svg{height:46px !important;overflow:visible}
+.shelf-ornament{width:92px;height:44px;right:14px;bottom:16px}
+.vbook .spine:before{inset:3px 3px;border-block:1px solid color-mix(in srgb,var(--metal) 55%, transparent) !important;opacity:.55 !important}
+.vbook .spine:after{display:none !important}
+.vbook .book-foil{left:3px;right:3px;height:3px;opacity:.42}
+.vbook .top-foil{top:13px}.vbook .bottom-foil{bottom:9px}
+.vbook .spinetitle{inset:18px 4px 15px !important;height:auto !important;max-width:calc(100% - 8px);font-size:clamp(7px,.92vw,9px) !important;line-height:1.12 !important;letter-spacing:0 !important;text-shadow:none !important}
+.vbook.style-1 .spine:before,.vbook.style-3 .spine:before{border-left:none !important;border-right:none !important}
+.hbook .hspinetitle{font-size:8.5px}
+@media(max-width:560px){
+  .season-select-wrap{min-width:62px;height:40px;padding-left:11px !important;gap:7px}
+  .season-caret{padding-left:7px}
+  .season-trim,body[data-season] #pet>.season-trim{height:58px !important}
+  .season-trim svg,.plank .shelf-trim svg{height:58px !important}
+  .plank .shelf-trim{height:42px !important;top:10px !important}
+  .shelf-ornament{width:78px;height:38px;right:6px;bottom:16px}
+  .vbook .spinetitle{font-size:7px !important;inset:17px 3px 14px !important}
+}
+
+
+/* v7 refinement overrides */
+.top{padding-right:58px !important}
+.top>.header-actions{right:4px;top:2px}
+.header-actions{gap:6px}
+.season-select-wrap{min-width:50px !important;height:36px !important;padding:0 8px 0 9px !important;border-radius:11px !important;gap:6px !important;box-shadow:0 1px 4px rgba(37,24,31,.03) !important}
+.season-trigger{font-size:18px !important}
+.season-caret{padding-left:6px !important;font-size:12px !important}
+@media(max-width:560px){.season-select-wrap{min-width:47px !important;height:34px !important;padding-left:8px !important}.season-trigger{font-size:16px !important}.season-caret{font-size:11px !important}}
+.season-trim{left:12px !important;right:12px !important;height:56px !important}
+.season-trim svg{height:56px !important}
+body[data-season] #pet>.season-trim,.plank .shelf-trim{height:42px !important}
+.plank .shelf-trim svg{height:42px !important}
+.shelf-ornament{width:82px !important;height:38px !important;bottom:18px !important}
+.case{background:linear-gradient(180deg,#F5EDE4 0%,#F1E7DC 100%) !important;border:8px solid #E1C6A9 !important;box-shadow:inset 0 2px 10px rgba(60,40,20,.08), 0 2px 6px rgba(60,40,20,.04)}
+.plank{height:18px !important;border-radius:5px !important;background:linear-gradient(180deg,#F6E4CD 0%,#DFC2A0 45%,#C29A72 100%) !important;box-shadow:0 4px 8px rgba(82,51,29,.16), inset 0 2px 0 rgba(255,255,255,.66), inset 0 -2px 0 rgba(122,84,54,.18) !important}
+.plank:before{content:'';position:absolute;left:0;right:0;top:3px;height:2px;background:linear-gradient(90deg,transparent, rgba(255,255,255,.5), transparent);opacity:.7}
+.plank:after{bottom:-5px !important;border-bottom:1px solid rgba(143,107,80,.45) !important}
+.books{min-height:176px !important}
+.vbook .spine{background:linear-gradient(90deg,var(--edge) 0%,var(--base) 14%,var(--base) 82%,var(--shine) 100%), repeating-linear-gradient(to bottom, transparent 0, transparent 8px, rgba(255,255,255,.13) 8px, rgba(255,255,255,.13) 9px) !important;background-blend-mode:normal,screen}
+.vbook .spine:before,.vbook .spine:after,.vbook .book-foil{display:none !important}
+.vbook .spinetitle{inset:14px 3px 12px !important;font-size:clamp(7px,.88vw,9px) !important;line-height:1.06 !important;background:linear-gradient(90deg, transparent 0%, color-mix(in srgb,var(--base) 72%, transparent) 16%, color-mix(in srgb,var(--base) 72%, transparent) 84%, transparent 100%);padding:1px 0;text-align:center !important}
+.hbook .hspine{background:linear-gradient(180deg,var(--shine) 0%,var(--base) 24%,var(--base) 78%,var(--edge) 100%), repeating-linear-gradient(to right, transparent 0, transparent 10px, rgba(255,255,255,.10) 10px, rgba(255,255,255,.10) 11px) !important;background-blend-mode:normal,screen}
+.hbook .hspine:after{display:none !important}
+.hbook .hspinetitle{font-size:8.5px !important}
+.shelf-hint{display:none !important}
+
+
+/* v9 targeted refinements */
+.season-select-wrap{min-width:58px !important;height:36px !important;padding:0 10px 0 10px !important;border-radius:12px !important}
+.season-select-wrap .season-caret{margin-left:2px}
+@media(max-width:560px){.season-select-wrap{min-width:54px !important;height:34px !important;padding:0 9px !important}}
+.shelf-ornament{width:74px !important;height:34px !important;bottom:19px !important;right:14px !important}
+.shelf-ornament svg{overflow:visible}
+.plank .shelf-trim{height:44px !important}
+.books{column-gap:6px !important}
+.hstack{margin:0 8px 0 6px !important}
+.case{background:linear-gradient(180deg,#F6EEE5 0%,#F3EADF 52%,#EEE3D7 100%) !important}
+.plank{background:linear-gradient(180deg,#F6E7D3 0%,#E1C4A3 45%,#C89D72 100%) !important;box-shadow:0 5px 9px rgba(82,51,29,.16), inset 0 2px 0 rgba(255,255,255,.74), inset 0 -2px 0 rgba(122,84,54,.16) !important}
+
+
+/* v9.1 visual audit: measured shelf geometry and flexible asymmetry */
+.books{gap:6px !important;column-gap:6px !important;overflow:visible}
+.hstack{flex:0 0 var(--sw);margin:0 8px 0 6px !important;min-width:0}
+.season-select-wrap{width:68px !important;min-width:68px !important;max-width:68px !important;height:37px !important;gap:9px !important;padding:0 11px 0 11px !important}
+@media(max-width:560px){.season-select-wrap{width:64px !important;min-width:64px !important;max-width:64px !important;height:36px !important;gap:8px !important}}
+
+
+/* v10 refinements */
+.season-select-wrap{width:76px !important;min-width:76px !important;max-width:76px !important;height:36px !important;padding:0 12px 0 12px !important;gap:10px !important;border-radius:12px !important}
+.season-trigger{font-size:18px !important}
+.season-caret{font-size:12px !important;margin-left:1px !important}
+@media(max-width:560px){.season-select-wrap{width:70px !important;min-width:70px !important;max-width:70px !important;height:35px !important;gap:8px !important;padding:0 10px !important}}
+.vbook .spinetitle{top:18px !important;bottom:18px !important;left:3px !important;right:3px !important;display:flex !important;align-items:center !important;justify-content:center !important;width:auto !important;height:auto !important;line-height:1 !important;padding:0 !important;text-align:center !important}
+.vbook .top-foil{top:10px !important}
+.vbook .bottom-foil{bottom:10px !important}
+
+
+/* v10.3 targeted leaf + downward custom season menu */
+.season-select-wrap{display:none !important}
+.season-menu{position:relative;display:inline-block}
+.season-menu-btn{display:flex;align-items:center;justify-content:center;gap:10px;height:36px;min-width:76px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:#fff;box-shadow:0 2px 6px rgba(37,24,31,.05);color:var(--ink);cursor:pointer}
+.season-menu-btn .season-trigger{font-size:18px;line-height:1}
+.season-menu-btn .season-caret{font-size:13px;line-height:1;color:var(--ptext)}
+.season-menu-pop{position:absolute;top:calc(100% + 8px);right:0;z-index:40;display:grid;gap:4px;min-width:176px;padding:8px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 18px 38px rgba(37,24,31,.16),0 2px 8px rgba(37,24,31,.08)}
+.season-menu-pop[hidden]{display:none !important}
+.season-opt{appearance:none;border:0;background:transparent;text-align:left;padding:10px 12px;border-radius:12px;font:600 16px var(--font-body);color:var(--ink);cursor:pointer}
+.season-opt:hover,.season-opt.active{background:#F5EAF0;color:var(--ink)}
+@media(max-width:560px){.season-menu-btn{height:35px;min-width:72px;padding:0 11px;gap:8px}.season-menu-pop{min-width:168px;top:calc(100% + 6px)}.season-opt{font-size:15px;padding:9px 11px}}
+
 </style>
 <style>
 body{margin:0;background:var(--bg);color:var(--ink)}
@@ -428,6 +642,139 @@ body{margin:0;background:var(--bg);color:var(--ink)}
 #gate .btn{width:100%;justify-content:center}
 #gate .err{margin-top:12px;color:#B3261E;font-size:13px;min-height:1em}
 #gate[hidden]{display:none}
+
+.shelf-catalog{display:flex;flex-direction:column;gap:6px}.shelf-catalog .catalog-item{padding:2px 4px;border-bottom:1px solid var(--line)}.shelf-catalog .brow{border-top:0}.shelf-catalog .brow .bt{font-size:14px;line-height:1.3}
+/* v4: единая светлая основа и иллюстрированный декор, закреплённый на элементах интерфейса */
+:root{color-scheme:light!important}
+body{background:#F7F4F3!important;color:#2F2938}
+.header-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.season-select-wrap{position:relative;display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 28px 0 12px;box-shadow:0 2px 5px rgba(37,24,31,.035)}
+.season-select-wrap:after{content:"⌄";position:absolute;right:10px;top:45%;transform:translateY(-50%);pointer-events:none;color:var(--ptext);font-size:17px}
+.season-select-wrap select{appearance:none;-webkit-appearance:none;border:0;outline:0;background:transparent;color:var(--ink);font:600 13px var(--font-body);padding:10px 1px;max-width:220px;min-width:0;cursor:pointer}
+.season-select-wrap select:focus-visible{outline:2px solid var(--ptext);outline-offset:3px}
+.season-scenery{position:relative;overflow:hidden}
+.season-trim{position:absolute;z-index:2;pointer-events:none;left:8px;right:8px;top:0;height:37px;overflow:visible;opacity:.99}
+.season-trim svg{display:block;width:100%;height:100%;overflow:visible}
+body[data-season] #pet{padding-top:95px}
+body[data-season] #pet>.season-trim{top:1px;left:6px;right:6px;height:41px}
+body[data-season] .card,body[data-season] .coach,body[data-season] .hero{padding-top:43px}
+body[data-season] .card>.season-trim,body[data-season] .coach>.season-trim,body[data-season] .hero>.season-trim{top:3px}
+body[data-season] .card:first-child{margin-top:14px}
+body[data-season] .case{padding-top:14px}
+body[data-season] .panel{padding-top:51px}
+body[data-season] .panel>.season-trim{top:4px;height:39px}
+body[data-season] .top{position:relative;padding-bottom:22px;border-bottom:2px solid #E6DFE5;overflow:visible}
+body[data-season] .top>.season-trim{top:auto;bottom:-25px;left:2px;right:2px;height:32px}
+/* настоящее расположение книжек на единой доске */
+.case{border-radius:15px;background:#F3E9DF;border:7px solid #E6D0B9;box-shadow:inset 0 3px 15px #A87F5C1a,0 3px 10px #45301e10;padding:12px 10px 14px}
+.sgrp+.sgrp{margin-top:13px;padding-top:8px;border-top:1px solid #D9BCA766}
+.ghead{justify-content:space-between;gap:6px;margin:0 1px 9px}
+.ghead .plaque{margin:0}
+.plaque{display:inline-flex;align-items:center;border:0;cursor:pointer}
+.shelf{margin:0 0 8px;position:relative}
+.books{display:flex;align-items:flex-end;justify-content:flex-start;gap:3px;min-height:136px;padding:2px 7px 0;overflow:hidden;position:relative;z-index:1}
+.vbook{position:relative;flex:0 0 var(--bw);height:var(--bh);width:var(--bw);border:0;background:none;padding:0;display:block;cursor:pointer;transform:rotate(var(--lean));transform-origin:50% 100%}
+.vbook .spine{position:absolute;inset:0;border-radius:3px 5px 4px 3px;overflow:hidden;background:linear-gradient(90deg,var(--edge),var(--base) 13%,var(--base) 76%,var(--shine));box-shadow:inset 1px 0 1px #fff6,inset -1px 0 2px #0003,2px 2px 2px #39291745}
+.vbook .spine:before{content:"";position:absolute;inset:5px 4px;border-block:1px solid #ecd7a28c;pointer-events:none}
+.vbook .spine:after{content:"";position:absolute;top:14px;left:5px;right:5px;height:2px;background:var(--metal);opacity:.7}
+.vbook .spinetitle{position:absolute;inset:20px 5px 8px 5px;writing-mode:vertical-rl;transform:rotate(180deg);width:calc(100% - 10px);height:calc(100% - 28px);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.05;font-size:10px;font-weight:600;letter-spacing:.015em;text-align:left;color:var(--txt);font-family:Georgia,serif;text-shadow:0 1px 0 #0002}
+.vbook .rib{position:absolute;top:-5px;right:3px;width:9px;height:18px;background:var(--ptext);clip-path:polygon(0 0,100% 0,100% 100%,50% 75%,0 100%);z-index:3}
+.hstack{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0;flex:0 0 var(--sw);margin:0 2px 0 4px;position:relative;z-index:1}
+.hbook{position:relative;display:block;flex:none;height:var(--sh);width:var(--w);max-width:100%;padding:0;border:0;background:none;cursor:pointer}
+.hbook .hspine{position:absolute;inset:0;border-radius:3px 6px 5px 3px;box-shadow:2px 2px 3px #46302144,inset 0 1px #fffa;background:linear-gradient(180deg,var(--shine) 0,var(--base) 24%,var(--base) 78%,var(--edge) 100%)}
+.hbook .hspine:before{content:"";position:absolute;left:3px;top:2px;bottom:2px;width:7px;border-radius:1px;background:linear-gradient(90deg,#f8f0db,#dbd1b9);box-shadow:1px 0 1px #0002}
+.hbook .hspinetitle{position:absolute;inset:0 7px 0 17px;display:flex;align-items:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:600 9px Georgia,serif;color:var(--txt)}
+.hbook .hspinetitle>span{overflow:hidden;text-overflow:ellipsis}
+.plank{position:relative;height:14px;margin:0 -4px;border-radius:3px;background:linear-gradient(180deg,#F0DDC6 0%,#D7B897 62%,#B99572 100%);box-shadow:0 4px 5px #52331d38,inset 0 2px 1px #fffa;z-index:2}
+.plank:after{content:"";position:absolute;bottom:-3px;left:1px;right:1px;border-bottom:1px solid #9E75576b}
+.plank .shelf-trim{height:28px;top:10px;left:0;right:0;z-index:3}
+.plank .shelf-trim svg{width:100%;height:100%}
+.shelf-ornament{position:absolute;right:16px;bottom:13px;width:65px;height:40px;z-index:3;pointer-events:none}
+.shelf-ornament svg{width:100%;height:100%;display:block}
+.case .season-trim.case-trim{top:1px;left:3px;right:3px;height:38px}
+.vbook:hover,.hbook:hover{filter:brightness(1.08);transform:translateY(-3px)}
+.vbook:focus-visible,.hbook:focus-visible{outline:2px solid #B04A83;outline-offset:4px}
+@media(max-width:560px){.header-actions{gap:5px}.season-select-wrap select{font-size:12px;max-width:170px}.books{gap:2px;min-height:127px;padding:1px 5px 0}.hstack{margin:0 2px}.case{padding-inline:7px}.season-trim{height:34px}body[data-season] .card,body[data-season] .coach{padding-top:40px}.shelf-ornament{width:48px;height:32px;right:5px}}
+
+/* refinements: quiet header, anchored picker and uninterrupted shelf scene */
+.top{position:relative;min-height:66px;padding-right:64px}
+.top>.header-actions{position:absolute;right:0;top:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px;margin:0}
+.season-select-wrap{height:41px;width:54px;border-radius:12px;padding:0 16px 0 10px;justify-content:center;position:relative}
+.season-trigger{font-size:20px;line-height:1;pointer-events:none}
+.season-select-wrap select{position:absolute;inset:0;width:100%;height:100%;opacity:.01;appearance:auto;border:0;cursor:pointer}
+body[data-season] .top{padding-bottom:0;border-bottom:0}
+body[data-season] .case{padding-top:14px}
+@media(max-width:560px){.top h1{font-size:28px}.season-select-wrap{width:49px;height:39px}}
+
+@media(max-width:600px){body.shelf-active .fab{width:52px;height:52px;border-radius:50%;padding:11px;display:flex;align-items:center;justify-content:center}body.shelf-active .fab .ic{width:23px;height:23px}}
+
+/* v8 reviewed scene: true 1:1 SVG proportions, even spaced spine bands, quieter wood grain */
+.top{padding-right:58px !important}
+.top>.header-actions{top:0;right:0}
+.season-select-wrap{height:35px !important;min-width:48px !important;padding:0 7px 0 8px !important;gap:5px !important;border-radius:10px !important}
+.season-trigger{font-size:16px !important}
+.season-caret{font-size:11px !important;padding-left:6px !important}
+.season-trim{height:62px !important;overflow:visible !important}
+.season-trim svg{height:62px !important;width:100% !important;overflow:visible !important;display:block}
+body[data-season] #pet>.season-trim{height:62px !important}
+body[data-season] #pet{padding-top:114px !important}
+body[data-season] .card,body[data-season] .coach,body[data-season] .hero{padding-top:51px !important}
+body[data-season] .panel{padding-top:63px !important}
+body[data-season] .panel>.season-trim{height:62px !important}
+.plank .shelf-trim{top:11px !important;left:8px !important;right:8px !important;height:62px !important;overflow:visible !important}
+.plank .shelf-trim svg{height:62px !important}
+.shelf{margin-bottom:66px !important}
+.sgrp+.sgrp{padding-top:8px !important;margin-top:10px !important}
+.shelf-ornament{width:80px !important;height:43px !important;bottom:17px !important;right:14px !important}
+.shelf-ornament svg{height:100%;width:100%;overflow:visible}
+.case{background:linear-gradient(95deg,#E6CDB2 0%,#F6EBDF 2%,#F6EBDF 98%,#DEC2A5 100%) !important;border:8px solid #E2C6A8 !important;border-radius:14px !important;box-shadow:inset 0 2px 12px #65432816,0 2px 5px #54311d16 !important}
+.plank{height:19px !important;border-radius:4px !important;background:repeating-linear-gradient(177deg,transparent 0 5px,#81582a0d 6px 7px,transparent 8px 12px),linear-gradient(180deg,#F5E1C8 0%,#E6C7A5 30%,#D4AD85 74%,#BD906E 100%) !important;box-shadow:inset 0 2px 1px #FFFFFFB0,inset 0 -2px 1px #996f4b35,0 4px 6px #64422a30 !important}
+.plank::before{content:"";position:absolute;left:5px;right:5px;top:3px;height:1px;background:#fff8;pointer-events:none}
+.plank::after{bottom:-4px !important;border-bottom:1px solid #A7775142 !important}
+.vbook .spine{overflow:hidden;position:absolute;inset:0;border-radius:3px 5px 3px 3px;background:linear-gradient(90deg,var(--edge) 0%,var(--base) 13%,var(--base) 79%,var(--shine) 100%) !important;box-shadow:inset 1px 0 1px #fff5,inset -1px 0 1px #0002,1px 2px 3px #39291735 !important}
+.vbook .spine:before,.vbook .spine:after{display:none !important}
+.vbook .book-foil{display:block !important;position:absolute;left:3px;right:3px;height:4px !important;background:none !important;border-top:1px solid var(--metal) !important;border-bottom:1px solid var(--metal) !important;opacity:.62 !important;pointer-events:none}
+.vbook .top-foil{top:9px !important}.vbook .bottom-foil{bottom:9px !important}
+.vbook .spinetitle{position:absolute;top:23px !important;bottom:23px !important;left:3px !important;right:3px !important;width:auto !important;max-width:none !important;height:auto !important;inset:auto !important;writing-mode:vertical-rl;transform:rotate(180deg);font-size:8.5px !important;line-height:1.05 !important;letter-spacing:0 !important;font-weight:600;white-space:nowrap;overflow:hidden;text-align:center !important;text-overflow:clip;background:none !important;box-shadow:none !important;text-shadow:none !important;padding:0 !important;color:var(--txt)}
+.vbook.style-1 .spine:before,.vbook.style-3 .spine:before{display:none !important}
+.hbook .hspine:after{display:none !important}
+.shelf-hint{display:none !important}
+@media (max-width:560px){
+  .season-select-wrap{height:34px !important;min-width:46px !important}
+  .books{min-height:179px !important}
+  .shelf-ornament{width:69px !important;height:40px !important;right:5px !important}
+  .vbook .spinetitle{font-size:8px !important}
+}
+
+
+/* v10.1 — true physical centering of vertical spine labels (last in cascade) */
+.vbook .spinetitle {
+  position:absolute !important;
+  inset:auto !important;
+  left:50% !important;
+  top:50% !important;
+  right:auto !important;
+  bottom:auto !important;
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:calc(100% - 7px) !important;
+  max-height:calc(100% - 48px) !important;
+  writing-mode:vertical-rl !important;
+  transform:translate(-50%, -50%) rotate(180deg) !important;
+  transform-origin:center center !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  text-align:center !important;
+  padding:0 !important;
+  font-size:8.5px !important;
+  line-height:1.1 !important;
+}
+@media(max-width:560px){
+ .vbook .spinetitle{font-size:8px !important}
+ .season-select-wrap{min-width:70px !important;width:70px !important;max-width:70px !important}
+}
 </style>
 </head>
 <body>
@@ -439,7 +786,7 @@ body{margin:0;background:var(--bg);color:var(--ink)}
       <h1>Книжный дневник</h1>
       <p class="sub" id="sub"></p>
     </div>
-    <div class="streak" id="streak" hidden></div>
+    <div class="header-actions"><div class="streak" id="streak" hidden></div><div class="season-menu" id="season-menu"><button type="button" class="season-menu-btn" id="season-menu-btn" aria-haspopup="true" aria-expanded="false" title="Выбрать оформление"><span class="season-trigger" aria-hidden="true">🎨</span><span class="season-caret" aria-hidden="true">⌄</span></button><div class="season-menu-pop" id="season-menu-pop" hidden><button type="button" class="season-opt" data-season-val="christmas">🎄 Рождество</button><button type="button" class="season-opt" data-season-val="valentine">💗 Валентин</button><button type="button" class="season-opt" data-season-val="halloween">🎃 Хэллоуин</button></div></div></div>
   </header>
   <section class="pet" id="pet" hidden aria-label="Дракон и цель года"><div class="sky"><svg class="cloud" style="--y:6px;--w:64px;--ct:18s;left:6%" viewBox="0 0 80 30"><ellipse cx="24" cy="20" rx="20" ry="9"/><ellipse cx="44" cy="14" rx="18" ry="11"/><ellipse cx="60" cy="21" rx="16" ry="8"/></svg><svg class="cloud" style="--y:54px;--w:48px;--ct:22s;left:62%" viewBox="0 0 80 30"><ellipse cx="24" cy="20" rx="20" ry="9"/><ellipse cx="44" cy="14" rx="18" ry="11"/><ellipse cx="60" cy="21" rx="16" ry="8"/></svg><div class="fly r" style="--y:6px;--w:84px;--t:28s;--dl:0s;--bt:3.2s;--fc:var(--fly1)"><div class="bobber"><svg viewBox="0 0 120 96" overflow="visible"><g class="wB"><path class="fw" d="M80 44 L97 9 L118 5 Q111 12 113 17 L104 21 Q99 24 96 30 Q88 36 80 44Z"/></g>
 <path class="fk" d="M64 52 C52 56 47 65 42 75 C38 83 30 86 22 82" stroke-width="3.6"/>
@@ -533,6 +880,7 @@ body{margin:0;background:var(--bg);color:var(--ink)}
 
 <script>
 (function(){
+document.documentElement.setAttribute('data-theme','light');
 'use strict';
 var MONTHS=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
 var MONTHS_GEN=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
@@ -579,6 +927,121 @@ var FMT={
 };
 var FKEYS=['audio','ebook','print'];
 var FALL=['audio','ebook','print','unk'];
+
+var SEASON_KEYS=['christmas','valentine','halloween'];
+function syncSeasonMenu(){
+  var pop=document.getElementById('season-menu-pop'),btn=document.getElementById('season-menu-btn');
+  if(btn)btn.setAttribute('aria-expanded', pop && !pop.hidden ? 'true' : 'false');
+  document.querySelectorAll('.season-opt').forEach(function(opt){
+    var on=opt.getAttribute('data-season-val')===S.season;
+    opt.classList.toggle('active',on);
+    opt.setAttribute('aria-pressed',on?'true':'false');
+  });
+}
+function closeSeasonMenu(){var pop=document.getElementById('season-menu-pop');var btn=document.getElementById('season-menu-btn');if(pop){pop.hidden=true;}if(btn)btn.setAttribute('aria-expanded','false');}
+function toggleSeasonMenu(){var pop=document.getElementById('season-menu-pop');var btn=document.getElementById('season-menu-btn');if(!pop||!btn)return;var open=pop.hidden;pop.hidden=!open;btn.setAttribute('aria-expanded',open?'true':'false');if(open)syncSeasonMenu();}
+
+function seasonVector(name,placement,width,variant){
+  variant=variant||0;
+  var w=Math.max(120,Math.round(width||320));
+  function f(n){return Math.round(n*10)/10;}
+  function bulb(x,y,color,scale){
+    return '<g transform="translate('+f(x)+' '+f(y)+') scale('+f(scale)+')">'
+      +'<circle cx="0" cy="11.5" r="12" fill="'+color+'" opacity=".14"/>'
+      +'<rect x="-3.3" y="0" width="6.6" height="5" rx="1.3" fill="#948879" stroke="#776F64" stroke-width=".8"/>'
+      +'<path d="M-5.1 5.3 C-10 8.8 -7.6 15.6 0 19.7 C7.6 15.6 10 8.8 5.1 5.3 Z" fill="'+color+'" stroke="#87796F" stroke-width="1.1"/>'
+      +'<path d="M-2.8 8.4 Q-5.2 11.4 -3.1 14.2" fill="none" stroke="#FFF8E7" stroke-width="2" stroke-linecap="round" opacity=".9"/>'
+      +'</g>';
+  }
+  function heart(x,y,color,scale){
+    return '<g transform="translate('+f(x)+' '+f(y)+') scale('+f(scale)+')">'
+      +'<path d="M0 5 C-1 -1 5 -4.4 9.6 -2.6 C11.4 -2 13.1 0 14 1.6 C14.9 0 16.6 -2 18.4 -2.6 C23 -4.4 29 -1 28 5 C27 11 20.2 15.7 14 21.1 C7.8 15.7 1 11 0 5 Z" fill="'+color+'" stroke="#B87995" stroke-width="1.1" stroke-linejoin="round"/>'
+      +'</g>';
+  }
+  function leaf(x,y,angle,scale,color){
+    return '<g transform="translate('+f(x)+' '+f(y)+') rotate('+f(angle)+') scale('+f(scale)+')">'
+      +'<path d="M0 0 C4 6 9 8 14 6 C13 11 17 15 23 17 C18 21 16 26 17 32 C11 31 7 34 5 40 C2 35 1 31 0 27 C-1 31 -2 35 -5 40 C-7 34 -11 31 -17 32 C-16 26 -18 21 -23 17 C-17 15 -13 11 -14 6 C-9 8 -4 6 0 0 Z" fill="'+color+'" stroke="#A5794D" stroke-width="1.15" stroke-linejoin="round"/>'
+      +'<path d="M0 3 L0 38 M0 16 L-10 13 M0 16 L10 13 M0 22 L-14 21 M0 22 L14 21 M0 28 L-9 31 M0 28 L9 31" fill="none" stroke="#F4D6AB" stroke-opacity=".9" stroke-width="1.05" stroke-linecap="round"/>'
+      +'<path d="M0 38 L0 50" fill="none" stroke="#8D6B45" stroke-width="1.4" stroke-linecap="round"/>'
+      +'</g>';
+  }
+  function pumpkin(x,y,size){
+    return '<g transform="translate('+f(x)+' '+f(y)+') scale('+f(size)+')">'
+      +'<path d="M0 -11 C-3 -18 0 -20 4 -20" fill="none" stroke="#5B8052" stroke-width="3" stroke-linecap="round"/>'
+      +'<ellipse rx="13" ry="10.5" fill="#E9A04E" stroke="#AE7042" stroke-width="1.4"/>'
+      +'<ellipse cx="-6" rx="6" ry="10" fill="#D98C42" stroke="#BB7840" stroke-width="1"/>'
+      +'<ellipse cx="6" rx="6" ry="10" fill="#EAA960" stroke="#BC8147" stroke-width="1"/>'
+      +'</g>';
+  }
+  function baubles(){
+    /* Decorative baubles: metal caps, suspension loops and star / snowflake motifs (not fruit stems). */
+    return '<g>'
+      +'<circle cx="30" cy="31" r="11.5" fill="#CF7079" stroke="#A85261" stroke-width="1.25"/>'
+      +'<circle cx="52" cy="27" r="13.2" fill="#D8A96A" stroke="#AD8054" stroke-width="1.25"/>'
+      +'<rect x="25.6" y="18.0" width="8.8" height="5.8" rx="1" fill="#D7BD88" stroke="#9A865E" stroke-width=".75"/>'
+      +'<rect x="47.3" y="11.7" width="9.4" height="5.6" rx="1" fill="#D7BD88" stroke="#9A865E" stroke-width=".75"/>'
+      +'<path d="M27.8 18 C27.8 11 32.2 11 32.2 18 M49.7 11.7 C49.7 5.2 54.3 5.2 54.3 11.7" fill="none" stroke="#A5926F" stroke-width="1.6"/>'
+      +'<path d="M30 24 L31.8 28.7 36.5 30.5 31.8 32.2 30 37 28.2 32.2 23.5 30.5 28.2 28.7Z" fill="#FCE4C7" opacity=".93"/>'
+      +'<path d="M52 19 v16 M44 27 h16 M46.5 21.5 l11 11 M57.5 21.5 l-11 11" fill="none" stroke="#FFF5DF" stroke-width="1.35" opacity=".9" stroke-linecap="round"/>'
+      +'<path d="M23 25 Q25 23 27 24 M46 22 Q48 18.5 51 19.5" fill="none" stroke="#FFF9F1" stroke-width="1.75" opacity=".8" stroke-linecap="round"/>'
+      +'</g>';
+  }
+  if(placement==='object'){
+    var obj='';
+    if(name==='christmas')obj=baubles();
+    else if(name==='valentine')obj=heart(14,15,'#EAB0C8',.77)+heart(41,20,'#E39DB7',.6);
+    else if(name==='halloween')obj=pumpkin(23,34,.72)+pumpkin(46,30,.92)+pumpkin(65,36,.60);
+    return '<svg viewBox="0 0 90 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+obj+'</svg>';
+  }
+  var color={christmas:'#708565',valentine:'#C889A5',halloween:'#9D7654'}[name]||'#708565';
+  var pitch={christmas:60,valentine:75,halloween:72}[name]||60;
+  var n=Math.max(2,Math.ceil(w/pitch)),step=w/n,pieces=[];
+  var path='M0 7';
+  for(var i=0;i<n;i++)path+=' Q'+f(step*(i+.5))+' '+f(16+(i%3)*2)+' '+f(step*(i+1))+' 7';
+  pieces.push('<path d="'+path+'" fill="none" stroke="'+color+'" stroke-width="2.2" stroke-linecap="round"/>');
+  var sets=[
+    ['#F4CB68','#E9958D','#8AC4D8','#D0A4D7','#A4C79B'],
+    ['#8AC4D8','#E3AFD2','#E9958D','#F4CB68','#B6CF8E'],
+    ['#A4C79B','#F4CB68','#D0A4D7','#8AC4D8','#E9958D']
+  ];
+  var heartColors=['#E7A1BE','#F0BFD4','#D994B3'];
+  var leafColors=['#CC7C4A','#DCA24F','#AF8D56','#C16F4F'];
+  for(var j=0;j<n;j++){
+    var x=step*(j+.5),drop=(j%3)*2+((j+variant)%2);
+    if(name==='christmas'){
+      pieces.push('<path d="M'+f(x)+' 12 v'+f(4+drop)+'" stroke="#92816D" stroke-width="1.4"/>');
+      pieces.push(bulb(x,16+drop,sets[variant%3][(j+variant)%5],.85+(j%3)*.07));
+    }else if(name==='valentine'){
+      pieces.push('<path d="M'+f(x)+' 12 v'+f(6+drop)+'" stroke="#C28AA4" stroke-width="1.4"/>');
+      pieces.push(heart(x-10,18+drop,heartColors[(j+variant)%3],.68+(j%3)*.06));
+    }else if(name==='halloween'){
+      var tilt=[-21,17,-9,26,-18,12][(j+variant)%6];
+      var sz=[.60,.76,.67,.83,.63,.72][(j+variant)%6];
+      var y=6+drop*.45;
+      pieces.push(leaf(x,y,tilt,sz,leafColors[(j+variant)%4]));
+      if(j%3===1){
+        pieces.push(leaf(x+step*.22,y+4,-tilt*.65,sz*.60,leafColors[(j+variant+2)%4]));
+      }
+    }
+  }
+  return '<svg viewBox="0 0 '+w+' 62" preserveAspectRatio="xMidYMin meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+pieces.join('')+'</svg>';
+}
+function decorateAll(){
+  document.documentElement.setAttribute('data-theme','light');
+  document.body.setAttribute('data-season',S.season);
+  syncSeasonMenu();
+  document.querySelectorAll('.season-trim,.shelf-ornament').forEach(function(el){el.remove();});
+  document.querySelectorAll('.pet:not([hidden]),#main .card,#main .coach,#main .hero,.panel:not(:empty)').forEach(function(el,i){
+    var d=document.createElement('div');d.className='season-trim';
+    el.prepend(d);d.innerHTML=seasonVector(S.season,'garland',d.clientWidth||el.clientWidth-16,i);
+  });
+  document.querySelectorAll('#main .plank').forEach(function(el,i){
+    var d=document.createElement('div');d.className='season-trim shelf-trim';el.appendChild(d);
+    d.innerHTML=seasonVector(S.season,'garland',d.clientWidth||el.clientWidth,i);
+    var pr=document.createElement('span');pr.className='shelf-ornament';pr.innerHTML=seasonVector(S.season,'object',90,i);el.appendChild(pr);
+  });
+}
+
 var COVERS={};
 var PAL=['#D9709F','#769A26','#5B93CF','#E0A055','#8A7FD0','#4FA39A'];
 function hashN(x){var h=0;for(var i=0;i<x.length;i++)h=(h*31+x.charCodeAt(i))>>>0;return h;}
@@ -590,11 +1053,17 @@ function cover(b,cls){
   return '<span class="cov ph '+cls+'" style="--ph:'+PAL[hashN(String(b.title||b.id))%6]+'" aria-hidden="true">'+esc(t.charAt(0).toUpperCase())+'</span>';
 }
 
-var S={books:[],logs:[],goals:{yearBooks:0},view:'month',cursor:new Date(),filter:'all',sel:todayS(),pScope:'all',q:'',ready:{books:false,logs:false},persist:true,error:''};
+var S={books:[],logs:[],goals:{yearBooks:0,yearlyBooks:{}},view:'month',cursor:new Date(),filter:'all',sel:todayS(),pScope:'all',q:'',season:'christmas',ready:{books:false,logs:false,goals:false},persist:true,error:''};
 var DB=null;
-try{var pv=localStorage.getItem('rt-view');if(pv&&['week','month','year','portrait','shelf'].indexOf(pv)>=0)S.view=pv;var pf=localStorage.getItem('rt-filter');if(pf&&['all','book','fanfic'].indexOf(pf)>=0)S.filter=pf;}catch(e){}
-function savePref(){try{localStorage.setItem('rt-view',S.view);localStorage.setItem('rt-filter',S.filter);}catch(e){}}
+try{var pv=localStorage.getItem('rt-view');if(pv&&['week','month','year','portrait','shelf'].indexOf(pv)>=0)S.view=pv;var pf=localStorage.getItem('rt-filter');if(pf&&['all','book','fanfic'].indexOf(pf)>=0)S.filter=pf;var ps=localStorage.getItem('rt-season');if(SEASON_KEYS.indexOf(ps)>=0)S.season=ps;else if(ps==='summer')S.season='christmas';}catch(e){}
+function savePref(){try{localStorage.setItem('rt-view',S.view);localStorage.setItem('rt-filter',S.filter);localStorage.setItem('rt-season',S.season);}catch(e){}}
 
+function goalForYear(year){
+ var g=S.goals||{},ys=g.yearlyBooks||{},key=String(year);
+ if(Object.prototype.hasOwnProperty.call(ys,key))return Math.max(0,+ys[key]||0);
+ return key==='2026'?Math.max(0,+g.yearBooks||0):0;
+}
+function normalizeGoals(d){return Object.assign({yearBooks:0,yearlyBooks:{}},d||{}, {yearlyBooks:Object.assign({},(d&&d.yearlyBooks)||{})});}
 /* ---------- storage ---------- */
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
 async function withRetry(fn){
@@ -605,7 +1074,7 @@ async function withRetry(fn){
 }
 function memSet(path,data){
   var p=path.split('/');
-  if(p[0]==='settings'){S.goals=Object.assign({yearBooks:0},data);}
+  if(p[0]==='settings'){S.goals=normalizeGoals(data);}
   else{var arr=S[p[0]];var o=Object.assign({id:p[1]},data);var i=arr.findIndex(function(x){return x.id===p[1];});if(i>=0)arr[i]=o;else arr.push(o);}
   render();
 }
@@ -618,11 +1087,11 @@ function newId(p){return p+Date.now().toString(36)+Math.random().toString(36).sl
 async function boot(){
   render();
   DB=window.RT_DB||null;
-  if(!DB){S.persist=false;S.ready={books:true,logs:true};render();return;}
-  var onErr=function(e){S.error=(e&&e.code)||'unavailable';S.ready={books:true,logs:true};render();};
+  if(!DB){S.persist=false;S.ready={books:true,logs:true,goals:true};render();return;}
+  var onErr=function(e){S.error=(e&&e.code)||'unavailable';S.ready={books:true,logs:true,goals:true};render();};
   DB.collection('books').onSnapshot(function(s){S.books=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});S.ready.books=true;render();},onErr);
   DB.collection('logs').onSnapshot(function(s){S.logs=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});S.ready.logs=true;render();},onErr);
-  DB.doc('settings/goals').onSnapshot(function(s){S.goals=s.exists?Object.assign({yearBooks:0},s.data()):{yearBooks:0};render();},function(){});
+  DB.doc('settings/goals').onSnapshot(function(s){S.goals=normalizeGoals(s.exists?s.data():null);S.ready.goals=true;render();},function(){S.ready.goals=true;render();});
 }
 
 /* ---------- derived data ---------- */
@@ -682,7 +1151,7 @@ function coachText(L){
   if(has)parts.push('Чтение за сегодня отмечено.');
   else if(st)parts.push('Серия в '+st+' '+pl(st,['день','дня','дней'])+' ждёт продолжения: отметь чтение за сегодня.');
   else parts.push(L.length?'Сегодня пока пусто. Хватит и десяти минут.':'Отметь чтение за сегодня, и здесь начнут расти недели, месяцы и год.');
-  var G=+S.goals.yearBooks||0,now=new Date();
+  var now=new Date(),G=goalForYear(now.getFullYear());
   if(G){
     var done=doneInYear(now.getFullYear(),'book').length,left=G-done;
     if(left<=0)parts.push('Цель года ('+G+') выполнена.');
@@ -705,7 +1174,7 @@ function summary(Lp,fin){
 }
 
 function goalCard(a,b,L){
-  var A=ymd(a),B=ymd(b),G=+S.goals.yearBooks||0,year=a.getFullYear();
+  var A=ymd(a),B=ymd(b),year=a.getFullYear(),G=goalForYear(year);
   var doneB=doneInYear(year,'book').length,doneF=doneInYear(year,'fanfic').length;
   var dB=new Set(),dF=new Set();
   L.forEach(function(l){if(l.date>=A&&l.date<=B)(l.book.kind==='fanfic'?dF:dB).add(l.date);});
@@ -885,32 +1354,88 @@ function viewPortrait(){
   return h;
 }
 
-function shelfN(){var m=$('#main'),w=(m&&m.clientWidth)||340;return Math.max(3,Math.min(9,Math.floor((w-52)/64)));}
-function hhOf(b){return .9+((hashN(String(b.id))%11)/100);}
-function shelfListHtml(){
-  var L=enriched(),inf=infoFor(L),q=(S.q||'').trim().toLowerCase();
-  var bks=S.books.filter(passes).filter(function(b){return !q||[b.title,b.author,b.fandom,b.pairing,b.genre].join(' ').toLowerCase().indexOf(q)>=0;});
-  var n=shelfN(),groups=['reading','paused','planned','done'],h='';
-  groups.forEach(function(g){
-    var list=bks.filter(function(b){return (b.status||'reading')===g;});
-    if(!list.length)return;
-    if(g==='done')list.sort(function(x,y){return String(y.finishedAt||'').localeCompare(String(x.finishedAt||''));});
-    else if(g==='planned')list.sort(function(x,y){return String(x.title).localeCompare(String(y.title),'ru');});
-    else list.sort(function(x,y){return String((inf[y.id]||{}).last||'').localeCompare(String((inf[x.id]||{}).last||''));});
-    var many=list.length>n,open=!!(S.open&&S.open[g]),lim=(many&&!open)?n:list.length;
-    h+='<div class="sgrp"><div class="ghead"><div class="plaque">'+STATUS_LABEL[g]+' · '+list.length+'</div>'+(many?'<button class="more" data-act="toggleGrp" data-g="'+g+'">'+(open?'Свернуть':'Показать все')+'</button>':'')+'</div>';
-    for(var i=0;i<lim;i+=n){
-      var row=list.slice(i,Math.min(i+n,lim));
-      h+='<div class="shelf" style="--n:'+n+'"><div class="books">'
-        +row.map(function(b){return '<button class="bk" data-act="selBook" data-id="'+esc(b.id)+'" style="--hh:'+hhOf(b).toFixed(2)+'" aria-label="'+esc(b.title)+'">'+cover(b,'bc')+(g==='reading'?'<i class="rib"></i>':'')+'</button>';}).join('')
-        +'</div><div class="plank"></div><div class="caps">'
-        +row.map(function(b){var o=inf[b.id],d=o?o.days.size:0,per=periodOf(b,o);return '<span><b title="'+esc(b.title)+'">'+esc(b.title)+'</b>'+(g==='reading'&&d?d+' '+pl(d,['день','дня','дней']):'')+'</span>';}).join('')
-        +'</div></div>';
-    }
-    h+='</div>';
-  });
-  return h?'<div class="case">'+h+'</div>':'<p class="muted">Ничего не нашлось.</p>';
+function shelfN(){
+  var m=document.getElementById('shelfList')||document.getElementById('main');
+  var width=(m&&m.clientWidth)||340;
+  return Math.max(200,width-54);
 }
+function bookTone(b){
+  var colors=[['#284F64','#517C8F','#203B4D','#F7E9CE','#BC9D63'],['#734353','#A9707F','#573340','#FFF3D7','#D9BA84'],['#395C4B','#709176','#2C4839','#F7ECD3','#C5AE70'],['#9D654A','#CB9270','#784A34','#FFF4DE','#D4B47A'],['#514B73','#8580AD','#393652','#F4EBD5','#CDB587'],['#7A603A','#AA905D','#58482B','#FFF2D6','#DDC48D'],['#2C626A','#61A2A6','#244B51','#FFF3DA','#C8AD79'],['#974F55','#C47B79','#793B41','#FFF0D7','#D5B585'],['#456069','#7696A5','#293F4B','#F7F1E2','#D4BA83'],['#755E6F','#A38FA8','#523E53','#FFF5E3','#E0C28D']];
+  return colors[hashN(String(b.title||b.id))%colors.length];
+}
+function spineName(t,max){t=String(t||'').replace(/^Пример:\s*/,'').trim();return t.length>max?t.slice(0,max-1).trim()+'…':t;}
+function spineWidth(b){return 19+hashN('w'+b.id)%10;}
+function standingBook(b,g){
+  var a=bookTone(b),hash=hashN(String(b.id)),bw=spineWidth(b),bh=136+hashN('h'+b.id)%41,style=hash%5, maxChars=Math.max(7,Math.floor((bh-48)/8.2));
+  return '<button class="vbook style-'+style+'" style="--bw:'+bw+'px;--bh:'+bh+'px;--lean:0deg;--base:'+a[0]+';--shine:'+a[1]+';--edge:'+a[2]+';--txt:'+a[3]+';--metal:'+a[4]+'" data-act="selBook" data-id="'+esc(b.id)+'" title="'+esc(b.title)+'" aria-label="Открыть книгу '+esc(b.title)+'"><span class="spine"><span class="book-foil top-foil"></span><span class="spinetitle">'+esc(spineName(b.title,maxChars))+'</span><span class="book-foil bottom-foil"></span></span>'+(g==='reading'?'<i class="rib"></i>':'')+'</button>';
+}
+function horizontalStack(arr){
+  var maxw=108;
+  return '<span class="hstack" style="--sw:'+maxw+'px">'+arr.map(function(b,i){
+   var a=bookTone(b),hash=hashN(b.id),w=85+hash%15,h=19+hash%4;
+   return '<button class="hbook" style="--w:'+w+'px;--sh:'+h+'px;--base:'+a[0]+';--shine:'+a[1]+';--edge:'+a[2]+';--txt:'+a[3]+';--metal:'+a[4]+'" data-act="selBook" data-id="'+esc(b.id)+'" title="'+esc(b.title)+'" aria-label="Открыть книгу '+esc(b.title)+'"><span class="hspine"></span><span class="hspinetitle"><span>'+esc(spineName(b.title,18))+'</span></span></button>';
+  }).join('')+'</span>';
+}
+function shelfRows(books,g,available){
+  var rows=[],i=0,idx=0,guard=0;
+  /* Each row uses a varying rhythm. All distances include actual CSS gap and margins. */
+  var rhythms={
+    reading:[[2,4],[4,2],[3,3]],
+    paused:[[2,2],[3,2],[1,3]],
+    planned:[[3,3],[2,4],[4,2],[5,2]],
+    done:[[4,3],[2,4],[3,2],[5,3]]
+  };
+  var plans=rhythms[g]||[[3,3],[2,4],[4,2]];
+  var gap=6,stackWidth=108,stackMargins=14;
+  var budget=Math.max(175,available-12);
+  while(i<books.length && guard++<books.length+4){
+    var used=0,cells=[],vertical=0,segment=0,origin=i;
+    var rhythm=plans[idx%plans.length];
+    while(i<books.length){
+      var remaining=books.length-i, target=rhythm[0],stackSize=rhythm[1];
+      /* Need at least one upright before a stack; count real books exactly once. */
+      var stackCost=stackWidth+stackMargins+(cells.length?gap:0);
+      if(remaining>=stackSize && vertical>=target && (used+stackCost)<=budget){
+        cells.push(horizontalStack(books.slice(i,i+stackSize)));
+        used+=stackCost;i+=stackSize;vertical=0;segment++;
+        /* Different clusters on the same row. */
+        rhythm=plans[(idx+segment)%plans.length];
+        continue;
+      }
+      var cost=spineWidth(books[i])+(cells.length?gap:0);
+      if(cells.length && used+cost>budget)break;
+      cells.push(standingBook(books[i],g));used+=cost;vertical++;i++;
+    }
+    if(i===origin){cells.push(standingBook(books[i],g));i++;}
+    rows.push('<div class="shelf"><div class="books">'+cells.join('')+'</div><div class="plank"></div></div>');idx++;
+  }
+  return rows.join('');
+}
+function groupBooks(g){
+ var L=enriched(),inf=infoFor(L),q=(S.q||'').trim().toLowerCase();
+ var list=S.books.filter(passes).filter(function(b){return (b.status||'reading')===g&&(!q||[b.title,b.author,b.fandom,b.pairing,b.genre].join(' ').toLowerCase().indexOf(q)>=0);});
+ if(g==='done')list.sort(function(x,y){return String(y.finishedAt||'').localeCompare(String(x.finishedAt||''));});
+ else if(g==='planned')list.sort(function(x,y){return String(x.title).localeCompare(String(y.title),'ru');});
+ else list.sort(function(x,y){return String((inf[y.id]||{}).last||'').localeCompare(String((inf[x.id]||{}).last||''));});
+ return list;
+}
+function shelfListHtml(){
+ var available=shelfN(),groups=['reading','paused','planned','done'],h='';
+ groups.forEach(function(g){
+   var list=groupBooks(g);if(!list.length)return;
+   h+='<div class="sgrp"><div class="ghead"><button class="plaque" data-act="openGrp" data-g="'+g+'">'+STATUS_LABEL[g]+' · '+list.length+'</button></div>';
+   h+=shelfRows(list,g,available)+'</div>';
+ });
+ return h?'<div class="case">'+h+'</div>':'<p class="muted">Ничего не нашлось.</p>';
+}
+function openShelfGroup(g){
+ var list=groupBooks(g),info=infoFor(enriched());if(!list.length)return;
+ var h='<h2>'+esc(STATUS_LABEL[g])+'</h2><p class="muted">'+list.length+' '+pl(list.length,['книга','книги','книг'])+'</p>';
+ h+='<div class="shelf-catalog">'+list.map(function(b){return '<div class="catalog-item">'+bookRow(b,info[b.id],{showLast:true,actions:true})+'</div>';}).join('')+'</div>';
+ h+='<div class="foot2"><button class="btn ghost" data-act="close">Закрыть</button></div>';
+ openSheet(h);
+}
+
 function dayStrip(b){
   var mine=S.logs.filter(function(l){return l.bookId===b.id;});
   if(!mine.length)return '';
@@ -956,7 +1481,7 @@ var MSG={
   sleep:['Zzz… ещё пять минуточек…','Мне снится библиотека на облаке…','Тс-с, дракон спит. Разбуди его книгой.']
 };
 function petState(L){
-  var now=new Date(),yr=now.getFullYear(),G=+S.goals.yearBooks||0;
+  var now=new Date(),yr=now.getFullYear(),G=goalForYear(yr);
   var done=doneInYear(yr,'book').length,t=todayS(),readToday=L.some(function(l){return l.date===t;}),st=streakOf(L);
   var doy=Math.floor((new Date(yr,now.getMonth(),now.getDate())-new Date(yr,0,0))/86400000),dim=(yr%4===0&&(yr%100!==0||yr%400===0))?366:365;
   var exp=G?G*doy/dim:0,ahead=done-exp,mood;
@@ -981,8 +1506,9 @@ function renderPet(L){
     if(s0.done>=s0.G)pace='Цель выполнена, дальше только бонусные книги';
     g='<div class="goalline"><b>'+s0.done+' из '+s0.G+'</b><span class="muted">книг в '+s0.yr+'</span></div><div class="prog" role="progressbar" aria-label="Цель года" aria-valuemin="0" aria-valuemax="'+s0.G+'" aria-valuenow="'+s0.done+'"><i style="width:'+pct+'%"></i></div><p class="pace">'+pace+'. <button class="linkbtn" style="padding:0" data-act="goals">Изменить цель</button></p>';
   }else{
-    g='<div class="goalline"><b>'+s0.done+'</b><span class="muted">'+pl(s0.done,['книга дочитана','книги дочитаны','книг дочитано'])+' в '+s0.yr+'</span></div><button class="btn" data-act="goals">'+IC.spark+'Задать цель на год</button>';
+    g='<div class="goalline"><b>'+s0.done+'</b><span class="muted">'+pl(s0.done,['книга дочитана','книги дочитаны','книг дочитано'])+' в '+s0.yr+'</span></div><button class="btn" data-act="goals">'+IC.spark+'Задать цель на '+s0.yr+'</button>';
   }
+
   if(g!==petCache.goal){petCache.goal=g;$('#pgoal').innerHTML=g;}
   var rd=S.books.filter(function(b){return b.status==='reading';}).sort(function(x,y){return lastLogOf(y.id).localeCompare(lastLogOf(x.id));}).slice(0,5);
   var nh=rd.length?'<span>Читаю сейчас:</span><span class="covs">'+rd.map(function(b){return '<button class="covbtn" data-act="addLog" data-b="'+esc(b.id)+'" title="'+esc(b.title)+' — отметить чтение" aria-label="Отметить чтение: '+esc(b.title)+'">'+cover(b,'s')+'</button>';}).join('')+'</span>':'';
@@ -1027,7 +1553,7 @@ function summaryText(){
   var books=S.books.filter(function(b){return b.kind!=='fanfic';}),fics=S.books.filter(function(b){return b.kind==='fanfic';});
   var done=books.filter(function(b){return b.status==='done';}),doneY=doneInYear(yr,'book');
   var o=['Сводка моего чтения для портрета читателя (дата: '+todayS()+').',''];
-  o.push('Цель года: '+(+S.goals.yearBooks>0?(doneY.length+' из '+S.goals.yearBooks+' книг дочитано в '+yr):('цель не задана, дочитано в '+yr+': '+doneY.length))+'. Всего дочитано за всё время в дневнике: '+done.length+'.');
+  o.push('Цель года: '+(goalForYear(yr)>0?(doneY.length+' из '+goalForYear(yr)+' книг дочитано в '+yr):('цель не задана, дочитано в '+yr+': '+doneY.length))+'. Всего дочитано за всё время в дневнике: '+done.length+'.');
   var gcA={},gcY={};done.forEach(function(b){var g=(b.genre||'').trim();if(!g)return;gcA[g]=(gcA[g]||0)+1;});doneY.forEach(function(b){var g=(b.genre||'').trim();if(!g)return;gcY[g]=(gcY[g]||0)+1;});
   if(top(gcA,1).length)o.push('Жанры за всё время (книг): '+top(gcA,8).map(function(g){return g+' '+gcA[g];}).join(', ')+'.');
   if(top(gcY,1).length)o.push('Жанры в '+yr+': '+top(gcY,8).map(function(g){return g+' '+gcY[g];}).join(', ')+'.');
@@ -1077,7 +1603,28 @@ function importData(file){
     try{
       for(var k=0;k<d.books.length;k++){var b=d.books[k];if(!b.id||b.sample)continue;await setDoc('books/'+b.id,strip(b));}
       for(var n=0;n<d.logs.length;n++){var l=d.logs[n];if(!l.id||l.sample)continue;await setDoc('logs/'+l.id,strip(l));}
-      if(d.goals&&+d.goals.yearBooks>0)await setDoc('settings/goals',{yearBooks:+d.goals.yearBooks});
+      // Сохраняем уже заданные цели других лет при загрузке старых копий.
+      // Старый формат содержит только yearBooks (цель 2026 года).
+      if(d.goals&&typeof d.goals==='object'){
+        var merged=normalizeGoals(S.goals),incoming=d.goals,changed=false;
+        var legacy=Number(incoming.yearBooks);
+        if(Number.isFinite(legacy)&&legacy>0){
+          merged.yearBooks=Math.max(0,Math.round(legacy));
+          merged.yearlyBooks['2026']=merged.yearBooks;
+          changed=true;
+        }
+        if(incoming.yearlyBooks&&typeof incoming.yearlyBooks==='object'&&!Array.isArray(incoming.yearlyBooks)){
+          Object.keys(incoming.yearlyBooks).forEach(function(yr){
+            var n=Number(incoming.yearlyBooks[yr]);
+            if(/^\d{4}$/.test(yr)&&Number.isFinite(n)&&n>=0){
+              merged.yearlyBooks[yr]=Math.max(0,Math.round(n));
+              if(yr==='2026')merged.yearBooks=merged.yearlyBooks[yr];
+              changed=true;
+            }
+          });
+        }
+        if(changed)await setDoc('settings/goals',merged);
+      }
       toast('Готово: данные загружены');
     }catch(e){toast('Не получилось загрузить: '+((e&&e.code)||'ошибка'));}
   };
@@ -1096,16 +1643,18 @@ function render(){
   var st=streakOf(L),sk=$('#streak');
   sk.hidden=!st;sk.innerHTML=st?IC.flame+'<span>'+st+' '+pl(st,['день','дня','дней'])+' подряд</span>':'';
   document.querySelectorAll('.tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.v===S.view));});
-  $('#fab').innerHTML=IC.plus+'Отметить чтение';
+  document.body.classList.toggle('shelf-active',S.view==='shelf');
+  $('#fab').innerHTML=IC.plus+(S.view==='shelf'?'':'Отметить чтение');
+  $('#fab').setAttribute('aria-label','Отметить чтение');
   var nt='';
   if(!S.persist)nt='Хранилище недоступно в этом окне, поэтому записи пропадут после закрытия страницы. Открой дневник по обычной ссылке в Claude.';
   else if(S.error)nt='Не удалось связаться с хранилищем ('+esc(S.error)+'). Обнови страницу.';
   $('#notice').innerHTML=nt?'<div class="notice">'+nt+'</div>':'';
   var filters='<div class="filters" role="group" aria-label="Что показывать">'+[['all','Всё'],['book','Книги'],['fanfic','Фанфики']].map(function(f){return '<button class="pill" data-act="filter" data-f="'+f[0]+'" aria-pressed="'+(S.filter===f[0])+'">'+(f[0]==='fanfic'?IC.feather:'')+f[1]+'</button>';}).join('')+'</div>';
   var main=$('#main');
-  if(!(S.ready.books&&S.ready.logs)){$('#bar').innerHTML='';main.innerHTML='<p class="muted" style="margin-top:24px">Открываю дневник…</p>';return;}
+  if(!(S.ready.books&&S.ready.logs)){$('#bar').innerHTML='';main.innerHTML='<p class="muted" style="margin-top:24px">Открываю дневник…</p>';decorateAll();return;}
   renderPet(L);
-  if(!S.books.length){$('#bar').innerHTML='';main.innerHTML=hero();return;}
+  if(!S.books.length){$('#bar').innerHTML='';main.innerHTML=hero();decorateAll();return;}
   var h;
   if(S.view==='shelf'||S.view==='portrait'){
     $('#bar').innerHTML='<div></div>'+filters;
@@ -1128,13 +1677,15 @@ function render(){
   var sig=S.view+'|'+S.cursor.getFullYear()+'-'+S.cursor.getMonth()+'|'+S.filter+'|'+S.pScope;
   main.classList.toggle('anim',sig!==lastSig);lastSig=sig;
   main.innerHTML=h;
+  decorateAll();
+  suggestAnnualGoal();
   if(S.view==='year'){var hv2=$('#heat');if(hv2){if(keep!=null&&keep>0)hv2.scrollLeft=keep;else{var cur=new Date();if(cur.getFullYear()===S.cursor.getFullYear()){var j1=new Date(cur.getFullYear(),0,1),fr=Math.floor(((cur-addDays(j1,-dow(j1)))/86400000)/7);hv2.scrollLeft=Math.max(0,fr*15-hv2.clientWidth/2);}}}}
 }
 
 /* ---------- sheets ---------- */
 var sheet=$('#sheet'),panel=$('.panel',sheet),lastFocus=null,toastT=null;
 function toast(msg){var t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){t.hidden=true;},2600);}
-function openSheet(html){lastFocus=document.activeElement;panel.innerHTML=html;sheet.hidden=false;document.body.classList.add('lock');panel.scrollTop=0;}
+function openSheet(html){lastFocus=document.activeElement;panel.innerHTML=html;sheet.hidden=false;document.body.classList.add('lock');panel.scrollTop=0;decorateAll();}
 function closeSheet(){sheet.hidden=true;panel.innerHTML='';document.body.classList.remove('lock');if(lastFocus&&lastFocus.focus&&document.contains(lastFocus))lastFocus.focus();}
 sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sheet.hidden)closeSheet();});
@@ -1343,17 +1894,45 @@ function openBook(opt){
   });
 }
 
-function openGoals(){
-  openSheet('<h2>Цель года</h2>'
-   +'<div class="field"><label for="g-year">Сколько книг хочу прочитать за год (без фанфиков)</label><input type="number" id="g-year" inputmode="numeric" min="0" max="500" value="'+(+S.goals.yearBooks||'')+'" placeholder="например, 30"></div>'
-   +'<p class="tip" style="margin:-4px 0 14px">Пустое поле или ноль выключает цель.</p>'
+function openGoals(targetYear){
+  var yearNow=new Date().getFullYear(),yr=targetYear||yearNow;
+  var years=[];for(var y=2026;y<=yearNow;y++)years.push(y);
+  if(years.indexOf(yr)<0)years.push(yr);years.sort();
+  openSheet('<h2>Годовая цель</h2>'
+   +'<div class="field"><label for="g-target-year">Год</label><select id="g-target-year">'+years.map(function(y){return '<option value="'+y+'"'+(y===yr?' selected':'')+'>'+y+'</option>';}).join('')+'</select></div>'
+   +'<div class="field"><label for="g-year">Сколько книг хочу прочитать (без фанфиков)</label><input type="number" id="g-year" inputmode="numeric" min="0" max="500" value="'+(goalForYear(yr)||'')+'" placeholder="например, 20"></div>'
+   +'<p class="tip" style="margin:-4px 0 14px">Цель хранится отдельно для каждого года. Ноль выключает цель для выбранного года. Старые цели сохраняются.</p>'
    +'<div class="foot2"><div class="r"><button type="button" class="btn ghost" data-act="close">Отмена</button><button type="button" class="btn" id="g-save">Сохранить</button></div></div>');
+  $('#g-target-year',panel).addEventListener('change',function(){var n=goalForYear(+this.value);$('#g-year',panel).value=n||'';});
   $('#g-save',panel).addEventListener('click',async function(){
+    var yr=+val('#g-target-year'),n=Math.min(500,Math.max(0,Math.round(+val('#g-year')||0))),goals=normalizeGoals(S.goals);
+    goals.yearlyBooks[String(yr)]=n;
+    if(yr===2026)goals.yearBooks=n;
     this.disabled=true;
-    try{await setDoc('settings/goals',{yearBooks:Math.max(0,Math.round(+val('#g-year')||0))});closeSheet();toast('Цель сохранена');}
+    try{await setDoc('settings/goals',goals);closeSheet();toast('Цель на '+yr+' сохранена');}
     catch(e){this.disabled=false;toast('Не получилось сохранить. Попробуй ещё раз.');}
   });
 }
+
+var firstNewYearPrompt=false;
+function suggestAnnualGoal(){
+  if(!S.ready.goals || !S.ready.books || !S.ready.logs || firstNewYearPrompt)return;
+  var year=new Date().getFullYear();
+  if(year<2027 || goalForYear(year)>0 || !sheet || !sheet.hidden)return;
+  // Одна подсказка за посещение, но при следующем открытии она появится снова,
+  // если цель за текущий год по-прежнему не установлена.
+  firstNewYearPrompt=true;
+  openSheet('<h2>Новый читательский год ✨</h2><p>Наступил '+year+' год! Зададим новую цель по количеству книг? Статистика за '+year+' уже считается отдельно, а результаты прошлых лет сохранены.</p>'+
+    '<div class="foot2"><button class="btn ghost" data-act="close">Позже</button><button class="btn" data-act="goalCurrent">Задать цель на '+year+'</button></div>');
+}
+var appCalendarYear=new Date().getFullYear();
+function checkNewReadingYear(){
+  var actual=new Date().getFullYear();
+  if(actual!==appCalendarYear){appCalendarYear=actual;firstNewYearPrompt=false;S.cursor=new Date();S.sel=todayS();render();}
+}
+document.addEventListener('visibilitychange',function(){if(!document.hidden)checkNewReadingYear();});
+window.addEventListener('focus',checkNewReadingYear);
+setInterval(checkNewReadingYear,60000);
 
 /* ---------- sample data (opt-in, removable) ---------- */
 var busy=false;
@@ -1417,9 +1996,11 @@ var H={
   editLog:function(t){var l=S.logs.find(function(x){return x.id===t.dataset.id;});if(l)openLog({log:l});},
   addBook:function(){openBook({});},
   selBook:function(t){openBookDetail(t.dataset.id);},
+  openGrp:function(t){openShelfGroup(t.dataset.g);},
   toggleGrp:function(t){S.open=S.open||{};S.open[t.dataset.g]=!S.open[t.dataset.g];var e=$('#shelfList');if(e)e.innerHTML=shelfListHtml();},
   editBook:function(t){var b=bookById(t.dataset.id);if(b)openBook({book:b});},
   goals:function(){openGoals();},
+  goalCurrent:function(){openGoals(new Date().getFullYear());},
   sample:function(){loadSample();},
   clearSample:function(){clearSample();},
   pet:function(){petTap();},
@@ -1435,6 +2016,14 @@ document.addEventListener('click',function(e){
   var f=H[t.dataset.act];
   if(f)f(t,e);
 });
+document.addEventListener('click',function(e){
+  var t=e.target;
+  if(t&&t.closest&&t.closest('#season-menu-btn')){e.preventDefault();toggleSeasonMenu();return;}
+  var opt=t&&t.closest?t.closest('.season-opt'):null;
+  if(opt){e.preventDefault();var val=opt.getAttribute('data-season-val');if(SEASON_KEYS.indexOf(val)>=0){S.season=val;savePref();closeSeasonMenu();decorateAll();}return;}
+  if(!(t&&t.closest&&t.closest('#season-menu')))closeSeasonMenu();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSeasonMenu();});
 document.addEventListener('change',function(e){if(e.target&&e.target.id==='impfile'&&e.target.files&&e.target.files[0])importData(e.target.files[0]);});
 document.addEventListener('input',function(e){
   if(e.target&&e.target.id==='q'){S.q=e.target.value;var l=$('#shelfList');if(l)l.innerHTML=shelfListHtml();}

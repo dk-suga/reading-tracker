@@ -905,7 +905,7 @@ body[data-season] .panel>.season-trim{height:62px !important}
       <h1>Книжный дневник</h1>
       <p class="sub" id="sub"></p>
     </div>
-    <div class="header-actions"><div class="streak" id="streak" hidden></div><div class="season-menu" id="season-menu"><button type="button" class="season-menu-btn" id="season-menu-btn" aria-haspopup="true" aria-expanded="false" title="Выбрать оформление"><span class="season-trigger" aria-hidden="true">🎨</span><span class="season-caret" aria-hidden="true">⌄</span></button><div class="season-menu-pop" id="season-menu-pop" hidden><button type="button" class="season-opt" data-season-val="christmas">🎄 Рождество</button><button type="button" class="season-opt" data-season-val="valentine">💗 Валентин</button><button type="button" class="season-opt" data-season-val="halloween">🎃 Хэллоуин</button></div></div></div>
+    <div class="header-actions"><div class="streak" id="streak" hidden></div><div class="season-menu" id="season-menu"><button type="button" class="season-menu-btn" id="season-menu-btn" aria-haspopup="true" aria-expanded="false" title="Выбрать оформление"><span class="season-trigger" aria-hidden="true">🎨</span><span class="season-caret" aria-hidden="true">⌄</span></button><div class="season-menu-pop" id="season-menu-pop" hidden><button type="button" class="season-opt" data-season-val="none">◯ Без оформления</button><button type="button" class="season-opt" data-season-val="christmas">🎄 Рождество</button><button type="button" class="season-opt" data-season-val="valentine">💗 Валентин</button><button type="button" class="season-opt" data-season-val="halloween">🎃 Хэллоуин</button></div></div></div>
   </header>
   <section class="pet" id="pet" hidden aria-label="Дракон и цель года"><div class="sky"><svg class="cloud" style="--y:6px;--w:64px;--ct:18s;left:6%" viewBox="0 0 80 30"><ellipse cx="24" cy="20" rx="20" ry="9"/><ellipse cx="44" cy="14" rx="18" ry="11"/><ellipse cx="60" cy="21" rx="16" ry="8"/></svg><svg class="cloud" style="--y:54px;--w:48px;--ct:22s;left:62%" viewBox="0 0 80 30"><ellipse cx="24" cy="20" rx="20" ry="9"/><ellipse cx="44" cy="14" rx="18" ry="11"/><ellipse cx="60" cy="21" rx="16" ry="8"/></svg><div class="fly r" style="--y:6px;--w:84px;--t:28s;--dl:0s;--bt:3.2s;--fc:var(--fly1)"><div class="bobber"><svg viewBox="0 0 120 96" overflow="visible"><g class="wB"><path class="fw" d="M80 44 L97 9 L118 5 Q111 12 113 17 L104 21 Q99 24 96 30 Q88 36 80 44Z"/></g>
 <path class="fk" d="M64 52 C52 56 47 65 42 75 C38 83 30 86 22 82" stroke-width="3.6"/>
@@ -1047,7 +1047,7 @@ var FMT={
 var FKEYS=['audio','ebook','print'];
 var FALL=['audio','ebook','print','unk'];
 
-var SEASON_KEYS=['christmas','valentine','halloween'];
+var SEASON_KEYS=['none','christmas','valentine','halloween'];
 function syncSeasonMenu(){
   var pop=document.getElementById('season-menu-pop'),btn=document.getElementById('season-menu-btn');
   if(btn)btn.setAttribute('aria-expanded', pop && !pop.hidden ? 'true' : 'false');
@@ -1150,9 +1150,14 @@ function queueDecor(){if(decorRAF&&window.cancelAnimationFrame)cancelAnimationFr
 
 function decorateAll(){
   document.documentElement.setAttribute('data-theme','light');
-  document.body.setAttribute('data-season',S.season);
   syncSeasonMenu();
   document.querySelectorAll('.season-trim,.shelf-ornament').forEach(function(el){el.remove();});
+  // In the plain mode, remove the seasonal CSS selector too: spacing and decoration return to their base values.
+  if(S.season==='none'){
+    document.body.removeAttribute('data-season');
+    return;
+  }
+  document.body.setAttribute('data-season',S.season);
   document.querySelectorAll('.pet:not([hidden]),#main .card,#main .coach,#main .hero,.panel:not(:empty)').forEach(function(el,i){
     var d=document.createElement('div');d.className='season-trim';
     el.prepend(d);d.innerHTML=seasonVector(S.season,'garland',d.clientWidth||el.clientWidth-16,i);
